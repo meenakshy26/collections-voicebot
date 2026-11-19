@@ -26,3 +26,5 @@ recordings/*.webm
 # scratch
 _archive/
 *.tgz
+submission/
+*.zip
