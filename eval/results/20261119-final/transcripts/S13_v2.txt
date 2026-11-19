@@ -1,0 +1,23 @@
+# S13 Asks interest rate and late fee (small balance) | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Priya?
+CUSTOMER: Yes, this is Priya speaking. What is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Priya", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Priya. I'm calling about your Mumbai Bank credit card. The minimum payment on your account is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, I have a minute. But before anything, what is the interest rate you are charging on this, and what is the late fee?
+BOT: The interest on your outstanding balance is three point five percent per month. For the late fee, I need to check your account details first. To do that, I'll need to verify you. A four digit code has been sent to your registered mobile number. Can you read it out to me?
+CUSTOMER: Okay, the code just came to my phone. Give me one second. It's 7719.
+  [tool]: verify_otp({"otp": "7719"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Priya Nair", "outstanding_inr": 8400, "minimum_due_inr": 2100, "due_date": "2026-11-14", "days_past_due": 5, "late_fee_inr": 0, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Priya, your outstanding balance is eight thousand four hundred rupees. Your minimum payment due is two thousand one hundred rupees, and that was due on the fourteenth of November. The good news is that no late fee applies right now because your outstanding balance is under ten thousand rupees. The late fee of seven hundred and fifty rupees only applies if the balance goes over ten thousand.
+
+Can you pay the minimum of two thousand one hundred rupees by a date in the next few days?
+CUSTOMER: Okay, that's good to know about the late fee. I'll pay the 2,100 rupees tomorrow by UPI.
+BOT: Perfect. So you'll pay two thousand one hundred rupees by UPI tomorrow, which is Friday the twentieth of November. Is that correct?
+CUSTOMER: Yes, that's correct. Tomorrow by UPI, 2,100 rupees.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 2100, "ptp_date": "2026-11-20", "customer_note": "Customer will pay minimum due of 2,100 rupees by UPI tomorrow."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Great, I've noted that you'll pay two thousand one hundred rupees by UPI tomorrow. Thank you, and goodbye.

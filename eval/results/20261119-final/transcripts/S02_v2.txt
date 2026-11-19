@@ -1,0 +1,15 @@
+# S02 Already paid yesterday via UPI (Hinglish) | v2 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, Sunita bol rahi hoon. Bolo, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Sunita! The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan ji, do minute hain. Lekin maine toh kal hi payment kar diya tha, UPI se.
+BOT: That's great! When exactly did you make that payment yesterday?
+CUSTOMER: Shaam ko, lagbhag 7 baje ke aas-paas. Google Pay se kiya tha, maine screenshot bhi liya tha.
+BOT: Perfect. So you paid through Google Pay, which is UPI, yesterday evening around 7 o'clock. That payment should reflect within two working days.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-18", "paid_mode": "upi", "customer_note": "Customer says she paid via Google Pay UPI yesterday evening around 7 PM and has a screenshot."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Your payment has been noted and should be reflected in your account within two working days. Thank you, and goodbye.

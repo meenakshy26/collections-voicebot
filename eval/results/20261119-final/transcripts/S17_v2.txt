@@ -1,0 +1,26 @@
+# S17 Wrong OTP first, then correct | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul. Tell me, what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk?
+CUSTOMER: Yes, I have two minutes. How much is due, sir... I mean, how much is the minimum amount?
+BOT: To share that with you, I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Okay, one second, let me check my messages. I think it's 1234.
+BOT: Thank you. Let me verify that for you.
+  [tool]: verify_otp({"otp": "1234"}) -> {"verified": false, "attempts_left": 1, "instruction": "That code did not match. Ask the customer to read it once more."}
+BOT: That code did not match. Can you check your messages once more and read out the code you see?
+CUSTOMER: Oh, sorry, I was looking at the wrong message. Let me check again... it's 4821.
+BOT: Thank you.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 0, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Perfect. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-07", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your minimum payment due is twelve thousand five hundred rupees. That was due on the seventh of November. Can you pay that by a date in the next few days?
+CUSTOMER: Twelve thousand five hundred, okay. I can pay it on the 22nd, by UPI.
+BOT: Just to confirm, you can pay twelve thousand five hundred rupees by UPI on the 22nd of November?
+CUSTOMER: Yes, that's right, I'll pay twelve thousand five hundred by UPI on the 22nd.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 12500, "ptp_date": "2026-11-22", "customer_note": "Customer confirmed payment of twelve thousand five hundred rupees by UPI on the 22nd of November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, so you'll pay twelve thousand five hundred rupees by UPI on the 22nd of November. Thank you, and goodbye.

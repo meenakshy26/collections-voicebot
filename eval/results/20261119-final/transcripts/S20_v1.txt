@@ -1,0 +1,14 @@
+# S20 Card holder has passed away | v1 | claude-haiku-4-5
+# expected dispute_or_transfer/bereavement | got dispute_or_transfer/bereavement | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Good afternoon! This is calling from Mumbai Bank regarding your credit card ending in 9054. Am I speaking with Mohammed Irfan?
+CUSTOMER: This is his son, Faisal. My father passed away two weeks ago.
+BOT: I'm very sorry to hear about your loss. My deepest condolences to you and your family.
+
+Let me connect you with our senior team who can properly assist you with this matter during this difficult time.
+  [tool]: request_transfer({"reason": "bereavement", "note": "Customer's father Mohammed Irfan passed away two weeks ago. Son Faisal is on the call."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: A colleague will take over now to help you sort this out properly. Again, my heartfelt sympathies to your family.
+
+Goodbye.

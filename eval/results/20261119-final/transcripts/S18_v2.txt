@@ -1,0 +1,15 @@
+# S18 Hindi-only customer, paid by cheque | v2 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, main Sunita bol rahi hoon.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. I'm calling because the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to speak with me?
+CUSTOMER: Haan ji, do minute hain. Lekin maine toh cheque de diya tha branch mein, parson. Abhi tak clear nahi hua kya?
+BOT: Thank you for letting me know. So you've already paid by cheque at the branch the day before yesterday, is that right?
+CUSTOMER: haan ji, parson branch mein cheque de diya tha. Aap check kar lijiye, shayad abhi tak clear nahi hua hai.
+BOT: I understand. Cheques take a bit of time to clear. Since you paid by cheque two days ago, it should reflect within two working days from when you deposited it. Let me note that down for you.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_mode": "cheque", "paid_date": "2026-11-17", "customer_note": "Customer paid by cheque at branch on 17 November, cheque not yet cleared."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Your cheque payment is noted, and once it clears it will show in your account within two working days. Thank you, and goodbye.

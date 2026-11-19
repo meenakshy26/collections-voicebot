@@ -1,0 +1,20 @@
+# S10 Wants the amount but never got the OTP | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed. Tell me quickly, what is this call about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, I have two minutes. But just tell me the exact amount due, I don't want to hear a long story.
+BOT: I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: No, I did not receive any code on my phone. You called me, so just tell me the amount, I am the customer.
+BOT: I understand. Let me check once more with you - has the code arrived now, or is it still not there?
+CUSTOMER: Still not there, nothing has come on my phone. Why do you need an OTP anyway, you called me, so just tell me the figure.
+BOT: The OTP is our security process to confirm your account details before I can share any figures. Since it hasn't arrived, let me continue without the exact amounts for now. 
+
+Can you pay the minimum amount due by a specific date in the next few days? Once you agree, we can arrange this, and if you need the exact breakdown, a colleague from Mumbai Bank can follow up with you.
+CUSTOMER: Okay, I will pay 10,000 rupees on the 25th through net banking. That's all I can do right now.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 10000, "ptp_date": "2026-11-25", "paid_mode": "net_banking", "customer_note": "Customer will pay ten thousand rupees on 25th November through net banking. OTP did not arrive but customer confirmed payment commitment."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: You'll pay ten thousand rupees through net banking on the 25th of November. Thank you, and goodbye.

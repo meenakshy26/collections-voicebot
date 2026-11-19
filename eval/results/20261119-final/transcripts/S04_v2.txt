@@ -1,0 +1,20 @@
+# S04 Persistent late-fee waiver demand | v2 | claude-haiku-4-5
+# expected callback_request | got callback_request/waiver_request | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul. Why are you calling me?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yeah, I have a minute. But I already know there's a late fee on it, and I'm not paying that fee unless you waive it.
+BOT: I've noted your request. I can't make any promise about it on this call, but a human agent from Mumbai Bank will call you back to discuss it.
+
+While that is reviewed, the minimum payment is still due. Can you pay that by a date in the next few days?
+CUSTOMER: I'm not paying anything until the fee is waived. Other banks waive it when you ask, and I've been a loyal customer for years, so if you won't do it, I'll close this card.
+BOT: Understood. The fee review is separate, and the minimum payment stays due in the meantime, but I won't push you further on this call.
+
+I've noted that you'd like the fee reviewed, and a colleague will reach out to you about that. Thank you, and goodbye.
+  [tool]: request_transfer({"reason": "waiver_request", "note": "Customer refuses to pay minimum due unless late fee is waived. Long-standing customer requesting fee review."}) -> {"error": "invalid reason 'waiver_request'", "valid": ["abusive", "medical_emergency", "job_loss", "bereavement", "human_requested", "fraud_claim", "billing_dispute"]}
+  [tool]: record_outcome({"outcome": "callback_request", "customer_note": "Customer linked payment to late fee waiver request. Refuses to pay until fee is reviewed. Claims loyalty and mentioned closing card.", "callback_reason": "waiver_request"}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Do NOT say goodbye yet. Continue: ask for the minimum payment as instructed, and close only after that."}
+BOT: Rahul, while that's being reviewed, can you pay the minimum payment by a specific date in the next few days?

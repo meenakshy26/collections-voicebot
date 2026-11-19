@@ -1,0 +1,13 @@
+# S14 Fraud claim, never used the card | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/fraud_claim | got dispute_or_transfer/fraud_claim | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No balance or amount was disclosed before OTP, and there was no mention of credit score or legal threats."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the fraud claim, the bot stopped the payment pitch, called request_transfer with reason fraud_claim, and asked no further payment questions."}, "outcome": {"pass": true, "evidence": "Recorded outcome dispute_or_transfer with transfer_reason=fraud_claim matches the call."}, "tone": {"pass": true, "evidence": "Polite 
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Yes, this is Sunita. Who is calling and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Great, thank you, Sunita. I'm calling from Mumbai Bank's credit card team. The minimum payment on your credit card is past its due date. Do you have two minutes to talk?
+CUSTOMER: Past due? I don't understand, I have not used this card for anything. Those charges are not mine, someone has misused my card.
+BOT: I understand your concern, Sunita. Let me connect you with our disputes team who can look into this properly for you.
+  [tool]: request_transfer({"reason": "fraud_claim", "note": "Customer says the charges are not hers and that someone has misused her card."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: A colleague from Mumbai Bank will reach out to you to help sort this out. Goodbye.

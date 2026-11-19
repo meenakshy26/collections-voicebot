@@ -1,0 +1,12 @@
+# S09 Abusive customer (Hindi abuse) | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/abusive | got dispute_or_transfer/abusive | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amount was disclosed. The bot only said the minimum payment is past due, which is allowed before OTP. It made no CIBIL, legal or threat statements."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the abuse ('saale roz phone karte ho, chup kar') the bot stopped the pitch at once and called request_transfer with reason 'abusive'. It asked no further payment questions."}, "outcome": {"pass": true, "evidence": "Recorded outcome is dispute_or_transfer with transfer_rea
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul hi bol raha hoon, aur tum log kaun ho? Itni subah subah phone kyun kar rahe ho?
+BOT: I understand you're Rahul. Thank you for picking up. This is Priya from Mumbai Bank's credit card team. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+CUSTOMER: Bakwaas band karo! Tum log saale roz phone karte ho, chup kar. Mere paas do minute bhi nahi hain tumse baat karne ke liye.
+BOT: I understand, and I'm sorry for the inconvenience. I've noted that, and a colleague from Mumbai Bank will reach out to you instead. Goodbye.
+  [tool]: request_transfer({"reason": "abusive", "note": "Customer used abusive language and refused to speak further."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}

@@ -1,0 +1,15 @@
+# S18 Hindi-only customer, paid by cheque | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": "No rate or fee figures were quoted. Minor slip: \"That would have been Tuesday, the 18th of November\" (18 Nov 2026 is a Wednesday). The bot also said \"Cheques usually take two to three working days to clear\", which is slightly inconsistent with the two-working-day line."}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome already_paid, paid_mode cheque, paid_date 2026-11-18, which matches the call."}, "tone": {"pass":
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, main Sunita bol rahi hoon.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. I'm calling because the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: maine toh cheque de diya tha branch mein, parson. abhi tak clear nahi hua kya?
+BOT: I understand. When did you give the cheque, and which branch did you go to?
+CUSTOMER: Branch ka naam yaad nahi aa raha, shayad Andheri wali. Cheque parson diya tha, counter pe jama kiya tha, aur receipt bhi li thi.
+BOT: Thank you for that. So you handed in a cheque the day before yesterday. That would have been Tuesday, the 18th of November. Cheques usually take two to three working days to clear, so it should reflect soon. It will show in your account within two working days from when the branch processed it.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_mode": "cheque", "paid_date": "2026-11-18", "customer_note": "Customer says she deposited a cheque at branch on 18 November and has a receipt."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: You've already submitted your cheque payment on the 18th, so once it clears within two working days your account will be up to date. Thank you, and goodbye.

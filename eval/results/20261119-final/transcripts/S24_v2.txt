@@ -1,0 +1,24 @@
+# S24 Customer sees a different amount in the app | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul speaking. I have about two minutes, so please go ahead.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. I'm calling to help you sort this out. Do you have two minutes now?
+CUSTOMER: Yes, I have two minutes. But tell me, how much is due right now? I have the app open.
+BOT: I can share that with you, but I need to verify you first. A four digit code has been sent to your registered mobile number. Could you read it out to me?
+CUSTOMER: Sure, the code is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-07", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Thank you. The figures from the bank as of today are: your outstanding balance is forty-eight thousand two hundred rupees, your minimum due is twelve thousand five hundred rupees, and a late fee of seven hundred and fifty rupees applies. The minimum was due on the seventh of November. 
+
+What do you see in your app?
+CUSTOMER: That's wrong, my app shows nine thousand as the minimum due, not twelve thousand five hundred. Where is the extra three and a half thousand coming from?
+BOT: The figures I have are from the bank's system as of today. The app can show a different number while a payment or a new charge is still being processed. I can't reconcile the two on this call, so a human agent from Mumbai Bank will call you back with the breakdown.
+
+Can you pay the amount you see today, so the account moves forward?
+CUSTOMER: Yes, I can pay the nine thousand I see today by UPI. But please make sure the agent calls me back with the breakdown of the extra amount.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 9000, "ptp_date": "2026-11-19", "customer_note": "Customer will pay nine thousand rupees by UPI today. App shows nine thousand minimum due while bank system shows twelve thousand five hundred; customer disputes the difference and needs breakdown from agent."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, Rahul. You'll pay nine thousand rupees by UPI today, and an agent will call you back with the details on the difference. Thank you, and goodbye.

@@ -1,0 +1,13 @@
+# S08 Medical emergency in the family | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/medical_emergency | got dispute_or_transfer/bereavement | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed. Who is calling, and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Mohammed, this is Priya from Mumbai Bank. I'm calling about your Mumbai Bank credit card. The minimum payment is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: My wife is in the ICU since Tuesday, I really can't deal with this right now.
+BOT: I'm very sorry to hear that. Please focus on what matters most right now. A colleague from Mumbai Bank will reach out to you instead.
+  [tool]: request_transfer({"reason": "bereavement", "note": "Customer's wife has been in ICU since Tuesday; unable to discuss payment now."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: A colleague will take over from here. Goodbye.

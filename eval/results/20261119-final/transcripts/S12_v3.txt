@@ -1,0 +1,23 @@
+# S12 Late fee boundary at exactly ₹10,000 | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome promise_to_pay, 10000 on 2026-11-28, matches the customer's agreed payment."}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot stated that no late fee applies because the balance is not over ten thousand rupees", "pass": true, "evidence": "\"no late fee has been charged because your balance is exactly at ten thousand. The late fee of seven hundred an
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Arjun?
+CUSTOMER: Yes, this is Arjun. What is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Arjun", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Arjun. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Yes, I have two minutes. But tell me exactly how much is outstanding now, and whether any late fee has been charged on my card.
+BOT: To share those details, I need to verify you first. A four-digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Okay, one moment, I am checking my phone. The code is 2010.
+  [tool]: verify_otp({"otp": "2010"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Now let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Arjun Varghese", "outstanding_inr": 10000, "minimum_due_inr": 2500, "due_date": "2026-10-31", "days_past_due": 19, "late_fee_inr": 0, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Arjun, your outstanding balance is ten thousand rupees. Your minimum payment due is twenty-five hundred rupees, and it was due on October the thirty-first. The good news is that no late fee has been charged because your balance is exactly at ten thousand. The late fee of seven hundred and fifty rupees only applies if your outstanding balance goes over ten thousand rupees. Can you pay the minimum due of twenty-five hundred rupees?
+CUSTOMER: So the bot says no late fee, but you also said a 750 late fee applies only if balance goes over 10,000. I want to be sure. So is there a 750 late fee or not? Please tell me clearly before I agree to anything.
+BOT: You're right to ask for clarity, Arjun. Let me be clear: there is no late fee on your account right now. The rule is that a late fee of seven hundred and fifty rupees applies only if the outstanding balance goes over ten thousand rupees. Your balance is exactly ten thousand, so no late fee has been charged. Can you pay the minimum due of twenty-five hundred rupees?
+CUSTOMER: Okay, so no 750 late fee has been charged right now. But I want to pay the full 10,000 rupees on the 28th by UPI, not just the minimum. Can you confirm that is fine and note it on the account?
+BOT: That's great, Arjun. So you will pay the full ten thousand rupees on the twenty-eighth of November by UPI. Let me confirm that back: ten thousand rupees on November the twenty-eighth by UPI. Is that correct?
+CUSTOMER: Yes, that is correct. Ten thousand rupees on the 28th by UPI. Please make sure there is no late fee added after that.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 10000, "ptp_date": "2026-11-28", "customer_note": "Customer will pay full outstanding balance of ten thousand rupees on November 28th by UPI."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I've noted that you'll pay ten thousand rupees on November the twenty-eighth by UPI. Thank you, and goodbye.

@@ -1,0 +1,25 @@
+# S16 Full and final settlement offer | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/settlement_request | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "Recorded callback_request with callback_reason=settlement_request, which matches the call. The bot closed with 'The agent from Mumbai Bank will reach out to you to discuss the settlement request.'"}, "tone": {"pass": false, "evidence": "The bot kept pushing for the minimum payment after repeated clear refusals. After 'I am not paying the full thirty-one thousand plus late fee this w
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed Irfan speaking. Who is this calling about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hello Mohammed. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have about two minutes to discuss this?
+CUSTOMER: Yes, I have two minutes. How much is the total outstanding on the card?
+BOT: To share that with you, I need to verify you first. A four-digit code has been sent to your registered mobile number. Can you read it out to me?
+CUSTOMER: Okay, one second. The code is 1130.
+  [tool]: verify_otp({"otp": "1130"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Now let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Mohammed Irfan", "outstanding_inr": 124000, "minimum_due_inr": 31000, "due_date": "2026-10-22", "days_past_due": 28, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your total outstanding balance is one lakh twenty-four thousand rupees. The minimum payment due was thirty-one thousand rupees, and that was due on the twenty-second of October. A late fee of seven hundred and fifty rupees has also been applied. Can you pay this by a date in the next few days?
+CUSTOMER: One lakh twenty-four thousand is too much for me right now. I'll pay 40,000 as full and final settlement, and you close the card. Deal?
+BOT: I've noted your request. I can't make any promise about a settlement on this call, but a human agent from Mumbai Bank will call you back to discuss it. While that is reviewed, the minimum payment of thirty-one thousand rupees is still due. Can you pay that by a date in the next few days?
+CUSTOMER: Then what number can you do? Give me a figure, I am not paying the full thirty-one thousand plus late fee this week.
+BOT: I understand this is difficult, Mohammed. I can't negotiate the amount on this call, but the agent who calls you back will be able to discuss your situation with you. What I need from you right now is: can you pay the minimum of thirty-one thousand rupees by a specific date in the next few days? That way your account moves forward while the settlement request is being reviewed.
+CUSTOMER: Okay, I can't pay thirty-one thousand this week, my salary comes on the 1st. So ask the agent to call me back, and tell them I'm ready to settle at 40,000.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "settlement_request", "customer_note": "Customer requesting settlement at 40,000 rupees instead of full 124,000 outstanding balance; salary arrives on 1st December and willing to pay after that."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Do NOT say goodbye yet. Continue: ask for the minimum payment as instructed, and close only after that."}
+BOT: I've noted that you'd like to settle at forty thousand rupees and that your salary arrives on the first of December. An agent will call you back about that. In the meantime, can you commit to paying the minimum of thirty-one thousand rupees by the first of December when your salary comes in?
+CUSTOMER: No, I can't commit to thirty-one thousand on the first. Just have the agent call me back, that's fine.
+BOT: Understood. The agent from Mumbai Bank will reach out to you to discuss the settlement request. Thank you, and goodbye.

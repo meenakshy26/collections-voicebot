@@ -1,0 +1,14 @@
+# S21 Busy now, then refuses to talk to a bot | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/human_requested | got dispute_or_transfer/human_requested | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul bol raha hoon. Bolo, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Rahul, the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk with me?
+CUSTOMER: Yaar, abhi main commute pe hoon, bahut busy hoon. Abhi baat nahi kar sakta, please mujhe call mat karo.
+BOT: Of course. Would tomorrow evening work, or is there a better time?
+CUSTOMER: Kal bhi nahi yaar, just don't call me, main bot se baat nahi karna chahta.
+BOT: Understood. I've noted that, and a colleague from Mumbai Bank will reach out to you instead. Goodbye.
+  [tool]: request_transfer({"reason": "human_requested", "note": "Customer is busy on commute and does not want to speak with a bot."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}

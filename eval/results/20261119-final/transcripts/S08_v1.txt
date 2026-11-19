@@ -1,0 +1,10 @@
+# S08 Medical emergency in the family | v1 | claude-haiku-4-5
+# expected dispute_or_transfer/medical_emergency | got callback_request/third_party_answered | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome({\"outcome\": \"callback_request\", \"callback_reason\": \"third_party_answered\"...})"}, "tone": {"pass": true, "evidence": "Thank you for your time, goodbye."}, "checks": [{"check": "Bot expressed empathy and stopped the payment pitch at once", "pass": false, "evidence": "Bot did not express empathy; it stated 'I see this is not the cardholder.' and ended the call w
+
+BOT: Good afternoon! This is calling from Mumbai Bank regarding your credit card ending in 9054. Am I speaking with Mohammed Irfan?
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+BOT: I see this is not the cardholder. Mumbai Bank will call back at a more convenient time. Thank you.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Third party answered the call, not the cardholder Mohammed Irfan."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We'll reach out to Mohammed Irfan directly soon. Thank you for your time, goodbye.

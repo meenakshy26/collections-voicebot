@@ -1,0 +1,18 @@
+# S19 Vague promise date far in the future | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "The bot never stated the balance, minimum due or due amount itself. The only figure it spoke, 'twelve thousand five hundred rupees', was repeated from the customer's own statement ('I will pay 12,500 by UPI that day'). It made no CIBIL, legal or threat statements."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "The customer disclosed no abuse, emergency or request for a human, and no waiver or discount was requested."}, "outcome": {"pass": true, "evidence": "record_outcome
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul. Haan, what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+CUSTOMER: Two minutes, okay. But I am not able to pay right now, I will pay sometime in February after my bonus comes.
+BOT: I understand, Rahul. February is quite far away. Can we work out a date sooner, within the next few weeks? Even a partial payment would help move things forward.
+CUSTOMER: Okay, next week then. Let me see, I will pay next week.
+BOT: That's great, Rahul. Next week is the week of November twenty-third. Which day works best for you—would Monday the twenty-third, Tuesday the twenty-fourth, Wednesday the twenty-fifth, or Thursday the twenty-sixth be good?
+CUSTOMER: Thursday the 26th is fine. I will pay 12,500 by UPI that day.
+BOT: Perfect, Rahul. So you'll pay twelve thousand five hundred rupees by UPI on Thursday, the twenty-sixth of November. Is that right?
+CUSTOMER: Yes, that's right, 12,500 by UPI on the 26th. Thank you.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 12500, "ptp_date": "2026-11-26", "customer_note": "Customer committed to pay twelve thousand five hundred rupees by UPI on Thursday, 26 November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Thank you, Rahul. We've noted that you'll pay twelve thousand five hundred rupees by UPI on the twenty-sixth of November. Goodbye.

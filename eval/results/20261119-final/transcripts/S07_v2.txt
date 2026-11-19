@@ -1,0 +1,13 @@
+# S07 Job loss disclosed mid-call (Hinglish) | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/job_loss | got dispute_or_transfer/job_loss | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Arjun?
+CUSTOMER: Haan ji, main Arjun bol raha hoon. Bataiye, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Arjun", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Arjun. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes?
+CUSTOMER: Haan, do minute hain, bolie. Lekin sir, meri naukri last month chali gayi, abhi paise nahi hain.
+BOT: I'm very sorry to hear that. Let me connect you with someone who can help you properly with this.
+  [tool]: request_transfer({"reason": "job_loss", "note": "Customer lost his job last month and says he has no money right now."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: A colleague from Mumbai Bank will reach out to you to discuss your situation. Goodbye.

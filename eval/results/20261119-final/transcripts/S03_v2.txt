@@ -1,0 +1,14 @@
+# S03 Busy, asks for a callback | v2 | claude-haiku-4-5
+# expected callback_request | got callback_request/customer_busy | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed speaking. Priya, what is this regarding? I am in a bit of a meeting right now.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Oh, I didn't realise it was overdue. Sorry, I'm in a meeting right now and can't talk properly. Can you call me back another time?
+BOT: Of course. Would tomorrow evening work, or is there a better time?
+CUSTOMER: Tomorrow evening works. Please call me at 6 o'clock, that's fine for me.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "customer_busy", "callback_time": "2026-11-20T18:00:00+05:30", "customer_note": "Customer in a meeting, requested callback tomorrow evening at 6 PM."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I'll call you tomorrow, Friday at 6 o'clock. Thank you, goodbye.

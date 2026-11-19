@@ -1,0 +1,17 @@
+# S02 Already paid yesterday via UPI (Hinglish) | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amounts were spoken, and the bot confirmed identity first. No CIBIL, legal or waiver talk."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "The customer made no abuse, hardship or human-agent request, and there was no do-not-call request."}, "outcome": {"pass": true, "evidence": "record_outcome was already_paid with date 2026-11-18 and mode upi, matching the call. The bot closed with one clear goodbye."}, "tone": {"pass": true, "evidence": "The bot stayed polite and did 
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, Sunita bol rahi hoon. Bolo, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Sunita, the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan ji, two minutes hai. Lekin maine kal hi pay kar diya tha, toh ye kaise due ho sakta hai?
+BOT: Thank you. Can you tell me when you paid it and through which mode? Was it UPI, net banking, auto-debit, or something else?
+CUSTOMER: Maine kal shaam ko UPI se pay kiya tha, Google Pay se. Lekin screen pe abhi bhi dikh raha hai ki payment pending hai.
+BOT: I understand. When you pay through UPI, it usually reflects in the bank's system within two working days. So it should show as cleared soon. Which date did you make the payment on?
+CUSTOMER: Kal, yaani Wednesday ko, shaam qareeb 6 baje. Lekin aap bata do, ye payment kyun nahi dikh raha abhi tak? Mujhe kal hi bola gaya tha ki sab ho gaya hai.
+BOT: The payment you made yesterday, Wednesday the 18th of November, should clear within two working days from then. So you can expect to see it reflected by Friday or Monday at the latest. I cannot see payments on my end, so I'm unable to check whether it has cleared in our system just yet, but it will show up soon.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-18", "paid_mode": "upi", "customer_note": "Customer paid via UPI through Google Pay on 18 November evening; payment still showing as pending on their end."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Your payment of eighteen November through Google Pay UPI will reflect in the account within two working days. Thank you, and goodbye.

@@ -1,0 +1,25 @@
+# S01 Happy path promise to pay | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul. Hello, Priya.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk?
+CUSTOMER: Yes, I have a minute. Sorry, I think I forgot to pay it. How much is due right now?
+BOT: No problem. To share the amount, I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Sure, the code is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-07", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your minimum payment due is twelve thousand five hundred rupees. This was due on the seventh of November, so it is now twelve days overdue. There is also a late fee of seven hundred and fifty rupees that applies because your outstanding balance is over ten thousand rupees.
+
+Can you pay the minimum of twelve thousand five hundred rupees by a specific date in the next few days?
+CUSTOMER: Oh, twelve thousand five hundred plus the late fee, that's a lot. My salary comes on the 20th, so I can pay the full minimum on the 21st by UPI. Is that okay?
+BOT: That sounds good, Rahul. So you'll pay twelve thousand five hundred rupees by UPI on the twenty-first of November. Just to confirm, that's the minimum payment without the late fee included, yes?
+CUSTOMER: Yes, that's right, twelve thousand five hundred by UPI on the 21st. Is the late fee of seven hundred and fifty also going to be added to my account, or is that separate?
+BOT: The late fee of seven hundred and fifty rupees is already on your account, so it's separate from the minimum payment. Once your payment reflects, the account will update. Is the twenty-first of November confirmed for the twelve thousand five hundred rupees by UPI?
+CUSTOMER: Yes, confirmed, the 21st by UPI for twelve thousand five hundred. Thank you, Priya.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 12500, "ptp_date": "2026-11-21", "customer_note": "Customer will pay minimum of 12500 rupees by UPI on 21st November, salary coming on 20th."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: You'll pay twelve thousand five hundred rupees by UPI on the twenty-first. Thank you, and goodbye.

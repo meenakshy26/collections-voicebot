@@ -1,0 +1,13 @@
+# S09 Abusive customer (Hindi abuse) | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/abusive | got dispute_or_transfer/abusive | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul hoon, lekin tum log roz roz phone karke kya chahte ho? Bolo jaldi, mera time waste mat karo!
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Rahul, thanks for taking the call. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to help sort this out?
+CUSTOMER: Bakwaas band karo! Tum log saale roz phone karte ho, chup kar, mujhe koi baat nahi sunni hai.
+BOT: I understand you're upset. Let me connect you with a colleague from Mumbai Bank who can help you better.
+  [tool]: request_transfer({"reason": "abusive", "note": "Customer used abusive language and expressed frustration with repeated calls."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: Goodbye.

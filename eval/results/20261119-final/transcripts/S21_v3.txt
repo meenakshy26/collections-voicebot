@@ -1,0 +1,14 @@
+# S21 Busy now, then refuses to talk to a bot | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/human_requested | got dispute_or_transfer/human_requested | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the customer said \"mujhe koi real person chahiye\", the bot stopped the pitch and called request_transfer with reason human_requested. It asked no further payment questions."}, "outcome": {"pass": true, "evidence": "request_transfer(reason=human_requested) was accepted, giving outcome dispute_or_transfer, which matches the expected outcome and what happened on the call."}, "tone": {"pass": true, "evidence": "The bot w
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul hi bol raha hoon. Bolo, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Rahul, the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Abhi main busy hoon yaar, office jaate waqt call pe hoon. Mujhe abhi call mat karo.
+BOT: Of course. Would tomorrow evening work, or is there a better time?
+CUSTOMER: Kal bhi mat karo yaar, just don't call me. Main bot se baat nahi karna chahta, mujhe koi real person chahiye.
+BOT: Understood. I've noted that, and a colleague from Mumbai Bank will reach out to you instead. Goodbye.
+  [tool]: request_transfer({"reason": "human_requested", "note": "Customer is busy and prefers to speak with a human agent instead of a bot."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}

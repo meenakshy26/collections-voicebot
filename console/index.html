@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mumbai Bank · Collections Console</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<style>
+  :root{--bg:#0b1020;--panel:#121a2e;--panel2:#182238;--line:#223050;--ink:#e6eaf2;--muted:#8b97b0;--brand:#6c8cff;--brand-soft:rgba(108,140,255,.16);--ok:#34d399;--ok-soft:rgba(52,211,153,.14);--warn:#fbbf24;--warn-soft:rgba(251,191,36,.14);--bad:#f87171;--bad-soft:rgba(248,113,113,.14);--info:#60a5fa;--info-soft:rgba(96,165,250,.14);--shadow:0 1px 0 rgba(255,255,255,.02) inset,0 8px 24px rgba(0,0,0,.25);--radius:12px}
+  *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:13px;-webkit-font-smoothing:antialiased}
+  a{color:var(--brand);text-decoration:none}
+  .app{display:grid;grid-template-columns:212px 1fr;min-height:100vh}
+  .side{background:#0d1426;border-right:1px solid var(--line);color:#c5cee0;padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+  .brand{color:var(--ink);font-weight:700;font-size:13px;white-space:nowrap;padding:4px 8px 16px;display:flex;align-items:center;gap:10px}
+  .brand .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:inline-block}
+  .brand small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+  .nav{padding:8px 10px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;color:#c5cee0;gap:8px}.nav span.ic{width:18px;display:inline-flex;justify-content:center;opacity:.8}.nav .lbl{flex:1}
+  .nav:hover{background:#17213a}.nav.active{background:var(--brand-soft);color:#fff}
+  .nav .cnt{background:#223050;color:#c5cee0;border-radius:999px;padding:1px 7px;font-size:11px;font-weight:600}.nav.active .cnt{background:var(--brand);color:#fff}
+  .side .foot{margin-top:auto;font-size:11px;color:var(--muted);padding:10px;line-height:1.5;border-top:1px solid var(--line);overflow-wrap:anywhere}
+  .main{padding:20px 24px;min-width:0}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  h1{font-size:18px;margin:0;letter-spacing:-.01em}h2{font-size:14px;margin:0 0 10px}
+  .sub{color:var(--muted);font-size:13px}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+  .kpi .v{font-size:22px;font-weight:700;letter-spacing:-.01em}.kpi .l{color:var(--muted);font-size:12px;margin-top:2px}.kpi .d{font-size:11px;margin-top:6px}.kpi .d.up{color:var(--ok)}.kpi .d.down{color:var(--bad)}
+  .btn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer}
+  .btn.sec{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:default}
+  select,input,textarea{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;background:var(--panel2);color:var(--ink);font-family:inherit;color-scheme:dark}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1px solid var(--line)}td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr.click:hover{background:var(--panel2);cursor:pointer}
+  .pill{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600}
+  .pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.info{background:var(--info-soft);color:var(--info)}.pill.gray{background:#223050;color:#c5cee0}.pill.brand{background:var(--brand-soft);color:var(--brand)}
+  .chat{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow:auto;padding:4px}
+  .msg{max-width:78%;padding:9px 12px;border-radius:12px;line-height:1.4}
+  .msg.bot{background:var(--brand-soft);align-self:flex-start}.msg.customer{background:var(--panel2);align-self:flex-end}
+  .msg.tool{align-self:stretch;max-width:100%;background:var(--warn-soft);border:1px dashed #b7791f;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#fcd34d;white-space:pre-wrap}
+  .msg .who{font-size:10.5px;color:var(--muted);margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+  pre{background:#0a0f1d;color:#e2e8f0;padding:12px;border-radius:10px;border:1px solid var(--line);font-size:11.5px;overflow:auto;max-height:420px;white-space:pre-wrap}
+  .ev{font-size:12px;padding:6px 8px;border-left:3px solid #f59e0b;background:var(--warn-soft);margin-bottom:6px;border-radius:4px}
+  .ev.red{border-color:#ef4444;background:var(--bad-soft)}.ev.green{border-color:#22c55e;background:var(--ok-soft)}
+  .matrix td.cell{text-align:center;cursor:pointer;font-weight:600;font-size:12px}.matrix td.pass{color:var(--ok)}.matrix td.fail{color:var(--bad)}
+  .modal{position:fixed;inset:0;background:rgba(2,6,23,.7);display:none;align-items:center;justify-content:center;z-index:50}
+  .modal.open{display:flex}.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(1100px,94vw);max-height:88vh;overflow:auto;padding:20px}
+  .prio{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff}
+  .p1{background:#b91c1c}.p2{background:#ea580c}.p3{background:#2563eb}.p4{background:#6b7280}
+  .queue-item{display:grid;grid-template-columns:40px 1.3fr 1.6fr 1.2fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}.queue-item:last-child{border-bottom:0}
+  .queue-item .ctx{font-size:12px;color:var(--muted);line-height:1.5}
+  .muted{color:var(--muted)}.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  .hidden{display:none}
+  .toast{position:fixed;bottom:18px;right:18px;background:#fff;color:#0f172a;padding:10px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .2s}
+  .toast.show{opacity:1}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:6px;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+  /* ---- live call ---- */
+  .live-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}
+  .status-strip{display:flex;align-items:center;gap:8px;white-space:nowrap;flex:0 0 auto;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 10px 6px 12px;font-size:12.5px;box-shadow:var(--shadow)}
+  .status-strip .sep{width:1px;height:14px;background:var(--line)}
+  .setup-bar{display:grid;grid-template-columns:120px minmax(220px,1.4fr) minmax(0,1fr) auto;gap:12px;align-items:end;margin-bottom:14px}
+  .field{display:grid;gap:4px;min-width:0}.field label{font-size:11.5px;color:var(--muted)}.field select{width:100%}
+  .ready{font-size:12.5px;color:var(--muted);padding:8px 10px;background:var(--panel2);border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid var(--line)}
+  .ready b{color:var(--ink)}
+  .callctl{display:flex;align-items:center;gap:10px}
+  .btn.call{padding:9px 18px;font-weight:600;border-radius:9px;display:inline-flex;align-items:center;gap:8px}
+  .btn.call.connect{background:#16a34a}.btn.call.hang{background:#dc2626}.btn.call.connect:hover{background:#15803d}.btn.call:disabled{opacity:.6}
+  .meter{display:flex;align-items:flex-end;gap:2px;height:18px;width:34px}.meter i{flex:1;background:#334766;border-radius:1px;height:20%;transition:height .08s}
+  .meter.on i{background:#16a34a}
+  .callstate{font-size:12px;color:var(--muted);min-width:92px}
+  .live-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+  .stack{display:grid;gap:14px}
+  .card h3{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+  .card .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
+  .card .card-head h3{margin:0}
+  .cust-name{font-size:15px;font-weight:700}.cust-id{font-size:11.5px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .figs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .fig{background:var(--panel2);border-radius:8px;padding:7px 10px}.fig .l{font-size:11px;color:var(--muted)}.fig .v{font-size:14px;font-weight:700;margin-top:1px}
+  .steps{display:grid;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .step{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--muted)}
+  .step i{width:17px;height:17px;border-radius:50%;border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-style:normal;flex:0 0 17px}
+  .step.done{color:var(--ink)}.step.done i{background:var(--ok);border-color:var(--ok);color:#fff}
+  .step.fail{color:var(--bad)}.step.fail i{background:var(--bad);border-color:var(--bad);color:#fff}
+  .step.now i{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+  .transcript{display:flex;flex-direction:column;gap:10px;height:calc(100vh - 262px);min-height:460px;overflow:auto;padding:8px 4px 4px}
+  .transcript > *{flex-shrink:0}
+  .turn{display:flex;gap:9px;align-items:flex-end;max-width:82%}
+  .turn.customer{align-self:flex-end;flex-direction:row-reverse}
+  .avatar{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:0 0 26px}
+  .turn.bot .avatar{background:var(--brand);color:#fff}.turn.customer .avatar{background:#2a3a5c;color:#e6eaf2}
+  .bubble{padding:8px 12px;border-radius:14px;line-height:1.45;font-size:13px}
+  .turn.bot .bubble{background:var(--brand-soft);border-bottom-left-radius:4px}.turn.customer .bubble{background:var(--panel2);border-bottom-right-radius:4px}
+  .bubble .meta{font-size:10.5px;color:var(--muted);margin-top:4px}
+  .toolchip{align-self:center;max-width:92%;font-size:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);overflow:hidden}
+  .toolchip summary{list-style:none;cursor:pointer;padding:5px 10px;display:flex;gap:8px;align-items:center;color:var(--ink)}
+  .toolchip summary::-webkit-details-marker{display:none}
+  .toolchip summary .k{font-family:ui-monospace,Menlo,monospace;font-weight:600}
+  .toolchip pre{margin:0;border-radius:0;max-height:220px;font-size:11px}
+  .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;gap:6px}
+  .empty .big{font-size:26px}
+  .outcome-badge{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:10px}
+  .outcome-badge .t{font-size:14px;font-weight:700}.outcome-badge .s{font-size:12px;opacity:.85}
+  .ob-ok{background:var(--ok-soft);color:var(--ok)}.ob-info{background:var(--info-soft);color:var(--info)}.ob-warn{background:var(--warn-soft);color:var(--warn)}.ob-bad{background:var(--bad-soft);color:var(--bad)}.ob-gray{background:var(--panel2);color:var(--muted)}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12.5px}.kv .k{color:var(--muted)}.kv .v{font-weight:500;overflow-wrap:anywhere}
+  .note{margin-top:10px;padding:7px 10px;border-left:3px solid var(--line);background:var(--panel2);border-radius:6px;font-size:12.5px;color:var(--ink);font-style:italic}
+  .evl{display:grid;gap:6px}
+  .evi{display:grid;grid-template-columns:8px 1fr auto;gap:9px;align-items:start;font-size:12px;padding:6px 9px;border-radius:8px;background:var(--panel2)}
+  .evi .dotc{width:8px;height:8px;border-radius:50%;margin-top:5px;background:#64748b}
+  .evi.green .dotc{background:#22c55e}.evi.red .dotc{background:#ef4444}.evi.amber .dotc{background:#f59e0b}
+  .evi .t{color:var(--muted);font-family:ui-monospace,Menlo,monospace;font-size:11px}
+  .evi .d{color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+  .linkish{color:var(--brand);cursor:pointer;font-size:12px}
+  @media (max-width:1180px){.setup-bar{grid-template-columns:110px 1fr auto}.setup-bar .ready{display:none}.live-grid{grid-template-columns:minmax(0,1fr) 290px}}
+  /* ---- dashboard ---- */
+  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel2)}
+  .seg button{background:transparent;border:0;color:var(--muted);padding:6px 10px;font-size:12px;cursor:pointer;font-family:inherit}.seg button.on{background:var(--brand);color:#fff}
+  .g5{grid-template-columns:repeat(5,1fr)}.g32{grid-template-columns:3fr 2fr}.g23{grid-template-columns:2fr 3fr;align-items:start}
+  .funnel{display:grid;gap:8px}.frow{display:grid;grid-template-columns:150px 1fr 44px;gap:10px;align-items:center;font-size:12px}
+  .frow .bar{height:18px;border-radius:5px;background:var(--brand-soft);position:relative;overflow:hidden}.frow .bar i{position:absolute;inset:0 auto 0 0;background:var(--brand);border-radius:5px}
+  .frow .n{text-align:right;font-weight:600}.frow .pct{color:var(--muted);font-weight:400;margin-left:4px}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:6px}.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  .donut-wrap{display:flex;align-items:center;gap:16px}
+  .mini{font-size:12px;color:var(--muted)}
+  .hbar{display:grid;grid-template-columns:140px 1fr 36px;gap:8px;align-items:center;font-size:12px;margin-bottom:6px}.hbar .b{height:10px;border-radius:4px;background:var(--panel2);overflow:hidden}.hbar .b i{display:block;height:100%;background:var(--warn)}
+  .sparkline{width:100%;height:46px}
+  @media (max-width:1180px){.g5{grid-template-columns:repeat(3,1fr)}.g32,.g23{grid-template-columns:1fr}}
+  .vcard{background:var(--panel2);border-radius:10px;padding:12px 14px;border-top:3px solid var(--line);display:flex;flex-direction:column;gap:8px}
+  .vcard.v1{border-top-color:#f87171}.vcard.v2{border-top-color:#fbbf24}.vcard.v3{border-top-color:#34d399}
+  .vcard .ttl{font-weight:700;font-size:13.5px}.vcard ul{margin:0;padding-left:16px;font-size:12px;color:var(--muted);line-height:1.5}.vcard .fails{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+  .gflags{display:flex;flex-wrap:wrap;gap:4px}.gflags span{font-size:10.5px;padding:2px 7px;border-radius:999px;background:#223050;color:var(--muted)}.gflags span.on{background:var(--ok-soft);color:var(--ok)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo"></span><div>Collections Console<small>Mumbai Bank · voice agent</small></div></div>
+    <div class="nav active" data-view="dash"><span class="ic">◧</span><span class="lbl">Dashboard</span></div>
+    <div class="nav" data-view="live"><span class="ic">●</span><span class="lbl">Live call</span></div>
+    <div class="nav" data-view="compare"><span class="ic">⇄</span><span class="lbl">Compare versions</span></div>
+    <div class="nav" data-view="analytics"><span class="ic">▥</span><span class="lbl">Cohort analytics</span></div>
+    <div class="nav" data-view="queue"><span class="ic">☰</span><span class="lbl">Work queue</span><span class="cnt" id="queueCount">0</span></div>
+    <div class="nav" data-view="inbox"><span class="ic">⇩</span><span class="lbl">CRM inbox</span><span class="cnt" id="inboxCount">0</span></div>
+    <div class="foot" id="footModels">loading…</div>
+  </aside>
+
+  <main class="main">
+    <!-- DASHBOARD -->
+    <section id="view-dash">
+      <div class="top"><div><h1>Dashboard</h1><div class="sub">How the collections voice agent is performing — outcomes, verification funnel, guardrails and the human hand-off queue.</div></div>
+        <div class="filters">
+          <div class="seg" id="segDays"><button data-v="1">Today</button><button data-v="7">7 days</button><button data-v="0" class="on">All time</button></div>
+          <div class="seg" id="segChannel"><button data-v="voice" class="on">Live voice</button><button data-v="simulated">Stress tests</button><button data-v="all">All</button></div>
+          <select id="dashVersion"><option value="all">All versions</option><option>v1</option><option>v2</option><option>v3</option></select>
+        </div></div>
+      <div class="grid g5" id="dashKpis"></div>
+      <div class="grid g32" style="margin-top:14px">
+        <div class="card"><div class="card-head"><h3>Call volume by outcome</h3><span class="mini" id="tlNote"></span></div><div id="chTimeline"></div></div>
+        <div class="card"><div class="card-head"><h3>Outcome mix</h3><span class="mini" id="mixNote"></span></div><div class="donut-wrap"><div id="chDonut"></div><div id="donutLegend" class="legend" style="flex-direction:column;gap:6px"></div></div></div>
+      </div>
+      <div class="grid g3" style="margin-top:14px">
+        <div class="card"><div class="card-head"><h3>Verification funnel</h3></div><div class="funnel" id="funnel"></div></div>
+        <div class="card"><div class="card-head"><h3>Guardrail activity</h3><span class="mini" id="gNote"></span></div><div id="chGuard"></div></div>
+        <div class="card"><div class="card-head"><h3>Human hand-off queue</h3><a class="linkish" onclick="goView('queue')">open queue →</a></div><div id="dashQueue"></div></div>
+      </div>
+      <div class="card" style="margin-top:14px"><div class="card-head"><h3>Stress-test scorecard — v1 vs v2 vs v3 on the same 22 scenarios</h3><a class="linkish" onclick="goView('compare')">open the matrix →</a></div><div class="grid g3" id="scorecard"></div></div>
+      <div class="grid g23" style="margin-top:14px">
+        <div class="card"><div class="card-head"><h3>By prompt version · <span style="text-transform:none;letter-spacing:0">calls in this window</span></h3></div><table id="tblVersions"></table></div>
+        <div class="card"><div class="card-head"><h3>Recent calls</h3><a class="linkish" onclick="goView('analytics')">all calls →</a></div><table id="tblDashRecent"></table></div>
+      </div>
+    </section>
+
+    <!-- LIVE -->
+    <section id="view-live" class="hidden">
+      <div class="live-top">
+        <div><h1>Live call</h1><div class="sub">Pick a prompt version and a customer, press <b>Connect</b>, and speak. The transcript, tool calls, guardrails and the outcome appear as the call runs.</div></div>
+        <div class="status-strip" id="liveStatus"><span class="muted">No call yet</span></div>
+      </div>
+      <div class="setup-bar card" style="padding:12px 14px">
+        <div class="field"><label>Prompt version</label><select id="selVersion"></select></div>
+        <div class="field"><label>Customer persona</label><select id="selCustomer"></select></div>
+        <div class="ready" id="readyLine">Choose a version and a customer.</div>
+        <div class="callctl">
+          <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="callstate" id="callState">Not connected</span>
+          <button class="btn call connect" id="btnCall">Connect</button>
+        </div>
+      </div>
+      <div class="live-grid">
+        <div class="card" style="padding:12px 14px">
+          <div class="card-head"><h3>Transcript</h3><span class="muted" id="liveHeader" style="font-size:12px">—</span></div>
+          <div class="transcript" id="chat"><div class="empty"><div class="big">🎧</div><div>No call yet.</div><div style="font-size:12px">Press Connect to start one.</div></div></div>
+        </div>
+        <div class="stack">
+          <div class="card" id="custCard"><h3>Customer on this call</h3><div id="liveCustomer" class="muted">—</div></div>
+          <div class="card">
+            <div class="card-head"><h3>Outcome → CRM</h3><span class="linkish" id="rawToggle">raw JSON</span></div>
+            <div id="liveOutcome"><span class="muted">Not recorded yet.</span></div>
+            <pre id="liveOutcomeRaw" class="hidden" style="max-height:260px;margin-top:10px">—</pre>
+            <div id="liveWebhook" class="muted" style="margin-top:10px;font-size:12px"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Guardrails & tools</h3><span class="muted" id="evSummary" style="font-size:12px"></span></div>
+            <div id="liveEvents" class="evl"><span class="muted">No events yet.</span></div>
+          </div>
+        </div>
+      </div>
+      <audio id="botAudio" autoplay playsinline></audio>
+    </section>
+
+    <!-- COMPARE -->
+    <section id="view-compare" class="hidden">
+      <div class="top"><div><h1>Compare versions</h1><div class="sub">A <b>stress test</b>: every scripted scenario is played by a simulated customer (an LLM acting from a script) against each prompt version, then scored. <b>v1</b> = the prompt exactly as supplied · <b>v2</b> = rewritten prompt · <b>v3</b> = rewritten prompt + code guardrails. Each cell is one full conversation — click it to read the transcript and the judge's evidence.</div></div>
+        <div class="field" style="min-width:300px"><label>Stress-test run</label><select id="selRun"></select></div></div>
+      <div class="card" style="margin-bottom:14px"><div class="card-head"><h3>The three versions under test</h3><span class="mini">same model (claude-haiku-4-5), same voice stack — only the prompt and the code guardrails change</span></div><div class="grid g3" id="versionCards"></div></div>
+      <div class="grid g4" id="compareKpis"></div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-head"><h3>Scenario × version results</h3><span class="mini"><span class="pill ok">✓</span> passed &nbsp; <span class="pill info">✓ caught</span> model slipped, guardrail caught it &nbsp; <span class="pill bad">✗</span> failed (fact · compliance · scope · adherence · outcome)</span></div>
+        <table class="matrix" id="matrix"></table>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-head"><h3>Run a stress test now</h3><span class="mini">Plays one scenario live against the versions you tick. Deterministic checks are free; the LLM judge costs a few cents per run.</span></div>
+        <div class="row" style="gap:14px">
+          <div class="field" style="min-width:360px"><label>Scenario</label><select id="selScenario"></select></div>
+          <div class="field"><label>Prompt versions to test</label><div class="row" style="padding-top:4px"><label><input type="checkbox" class="rv" value="v1" checked> v1</label><label><input type="checkbox" class="rv" value="v2"> v2</label><label><input type="checkbox" class="rv" value="v3" checked> v3</label></div></div>
+          <div class="field"><label>Grading</label><label style="padding-top:4px"><input type="checkbox" id="chkJudge"> also ask the LLM judge</label></div>
+          <div class="field"><label>&nbsp;</label><button class="btn" id="btnRun">Run stress test</button></div>
+          <span id="runStatus" class="muted"></span>
+        </div>
+        <div class="grid g2" id="runResults" style="margin-top:14px"></div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="view-analytics" class="hidden">
+      <div class="top"><div><h1>Cohort analytics</h1><div class="sub">Every logged call, cut by prompt version and customer cohort — days past due, balance band and language.</div></div>
+        <div class="field"><label>Channel</label><select id="selChannel"><option value="voice">Live voice calls</option><option value="simulated">Simulated (stress tests)</option><option value="all">All calls</option></select></div></div>
+      <div class="card" style="margin-bottom:14px"><div class="card-head"><h3>What the four outcomes mean</h3></div><div id="glossary"></div></div>
+      <div class="grid g6" id="kpis"></div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><h2>Outcome mix by prompt version</h2><div id="chVersion"></div></div>
+        <div class="card"><h2>Outcomes by days past due</h2><div id="chDpd"></div></div>
+        <div class="card"><h2>Outcomes by balance band</h2><div id="chBal"></div></div>
+        <div class="card"><h2>Outcomes by customer language</h2><div id="chLang"></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><h2>Why calls go to humans</h2><table id="tblReasons"></table></div>
+        <div class="card"><h2>Recent calls</h2><table id="tblRecent"></table></div>
+      </div>
+    </section>
+
+    <!-- QUEUE -->
+    <section id="view-queue" class="hidden">
+      <div class="top"><div><h1>Work queue</h1><div class="sub">Calls the bot handed off or could not close, with the context a human needs to pick them up.</div></div>
+        <div class="row"><select id="selQStatus"><option value="all">All</option><option value="pending" selected>Pending</option><option value="assigned">Assigned</option><option value="in_progress">In progress</option><option value="closed">Closed</option></select><button class="btn" id="btnAuto">Auto-assign pending</button></div></div>
+      <div class="card" id="queueList"></div>
+    </section>
+
+    <!-- INBOX -->
+    <section id="view-inbox" class="hidden">
+      <div class="top"><div><h1>CRM inbox</h1><div class="sub">Every outcome the bot pushed to the CRM webhook, newest first — what a collections team lead would see land in their system.</div></div></div>
+      <div class="card"><table id="tblInbox"></table></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="box"><div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 id="modalTitle">Transcript</h2><button class="btn sec" onclick="closeModal()">Close</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const api=async(p,o)=>{const r=await fetch(p,o);if(!r.ok)throw new Error(await r.text());return r.json()};
+const post=(p,b)=>api(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)};
+const inr=n=>n==null?'—':'₹'+Number(n).toLocaleString('en-IN');
+const pct=x=>(100*(x||0)).toFixed(0)+'%';
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const OUT_LABEL={promise_to_pay:'Promise to pay',already_paid:'Already paid',callback_request:'Callback',dispute_or_transfer:'Transfer / dispute'};
+const OUT_CLASS={promise_to_pay:'ok',already_paid:'info',callback_request:'warn',dispute_or_transfer:'bad'};
+const COLORS={promise_to_pay:'#34d399',already_paid:'#60a5fa',callback_request:'#fbbf24',dispute_or_transfer:'#f87171'};
+let CFG=null;
+const REASON_LABEL={customer_busy:'Customer busy — call back at agreed time',waiver_request:'Asked for a fee waiver',settlement_request:'Asked for a settlement',third_party_answered:'Family / colleague answered',wrong_number:'Wrong number',do_not_call:'Asked not to be called',otp_failed:'OTP failed twice',unresolved:'Hung up before an outcome',abusive:'Abusive language',medical_emergency:'Medical emergency',job_loss:'Lost job / income',bereavement:'Bereavement',human_requested:'Asked for a human',fraud_claim:'Fraud claim',billing_dispute:'Billing dispute'};
+const OUT_HELP={promise_to_pay:'Customer committed to an amount and a date.',already_paid:'Customer says the payment is already made; bank reconciles.',callback_request:'Bot could not close the call; a human calls back (busy, waiver asked, wrong person, OTP failed, hung up).',dispute_or_transfer:'Bot stepped out immediately and handed to a human (abuse, medical, bereavement, job loss, fraud, dispute, asked for a person).'};
+const GLOSSARY_HTML=`<div class="grid g4" style="gap:10px">${Object.keys(OUT_LABEL).map(k=>`<div class="fig" style="border-left:3px solid ${COLORS[k]}"><div class="l" style="color:#e6eaf2;font-weight:600">${OUT_LABEL[k]}</div><div class="mini" style="margin-top:3px">${OUT_HELP[k]}</div></div>`).join('')}</div>`;
+
+
+// ---------- nav
+function goView(v){ $$('.nav').forEach(x=>x.classList.toggle('active',x.dataset.view===v)); $$('section').forEach(s=>s.classList.add('hidden')); $('#view-'+v).classList.remove('hidden'); location.hash=v; ({dash:loadDash,live:loadLive,compare:loadCompare,analytics:loadAnalytics,queue:loadQueue,inbox:loadInbox})[v](); }
+$$('.nav').forEach(n=>n.onclick=()=>goView(n.dataset.view));
+function openModal(title,html){$('#modalTitle').textContent=title;$('#modalBody').innerHTML=html;$('#modal').classList.add('open')}
+function closeModal(){$('#modal').classList.remove('open')}
+
+// ---------- config
+async function init(){
+  CFG=await api('/api/config');
+  $('#footModels').innerHTML=`LLM ${CFG.models.llm}<br>STT ${CFG.models.stt}<br>TTS ${CFG.models.tts}<br>Judge ${CFG.models.judge}`;
+  $('#selVersion').innerHTML=CFG.versions.map(v=>`<option value="${v}" ${v===CFG.next_call.prompt_version?'selected':''}>${v} · ${{v1:'baseline',v2:'rewritten prompt',v3:'prompt + guardrails'}[v]||''}</option>`).join('');
+  $('#selCustomer').innerHTML=CFG.customers.map(c=>`<option value="${c.customer_id}" ${c.customer_id===CFG.next_call.customer_id?'selected':''}>${c.name} · ${c.dpd_bucket} · ${c.balance_band} · OTP ${c.otp}</option>`).join('');
+  const applyNext=async()=>{const r=await post('/api/next_call',{prompt_version:$('#selVersion').value,customer_id:$('#selCustomer').value});const c=CFG.customers.find(x=>x.customer_id===r.customer_id)||{};const VH={v1:'baseline, brief prompt, no guardrails',v2:'rewritten prompt, no guardrails',v3:'rewritten prompt + code guardrails'};$('#readyLine').innerHTML=`Next call → <b>${r.prompt_version}</b> <span class="muted">(${VH[r.prompt_version]||''})</span> · <b>${esc(c.name||r.customer_id)}</b> · OTP <b class="mono">${c.otp||'—'}</b>`};
+  $('#rawToggle').onclick=()=>{$('#liveOutcomeRaw').classList.toggle('hidden')};
+  $('#btnCall').onclick=()=>call.pc?call.hangup('you ended the call'):call.connect();
+  $('#selVersion').onchange=applyNext; $('#selCustomer').onchange=applyNext; await applyNext();
+  const v0=(location.hash||'#dash').slice(1); goView(['dash','live','compare','analytics','queue','inbox'].includes(v0)?v0:'dash');
+  setInterval(()=>{ if(!$('#view-live').classList.contains('hidden')) loadLive(); refreshCounts(); },1500); refreshCounts();
+  setInterval(()=>{ if(!$('#view-dash').classList.contains('hidden')) loadDash(); },8000);
+}
+async function refreshCounts(){try{const q=await api('/api/queue?status=pending');$('#queueCount').textContent=q.length;const i=await api('/api/inbox?limit=500');$('#inboxCount').textContent=i.length;}catch(e){}}
+
+
+// ---------- voice: a thin WebRTC client against the bot's /api/offer (no iframe, no SDK)
+const BOT_URL=()=>(CFG&&CFG.bot_url)||'http://localhost:7860';
+const call={pc:null,stream:null,ctx:null,raf:null,
+  setState(txt,cls){$('#callState').textContent=txt;const b=$('#btnCall');b.className='btn call '+(cls==='live'?'hang':'connect');b.textContent=cls==='live'?'Hang up':'Connect';b.disabled=cls==='busy'},
+  async connect(){
+    try{
+      this.setState('Requesting mic…','busy');
+      this.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+      const pc=this.pc=new RTCPeerConnection({iceServers:[]});
+      pc.createDataChannel('chat',{ordered:true});
+      this.stream.getAudioTracks().forEach(t=>pc.addTrack(t,this.stream));
+      pc.ontrack=e=>{const a=$('#botAudio');a.srcObject=e.streams[0];a.play().catch(()=>{})};
+      pc.onconnectionstatechange=()=>{const st=pc.connectionState;if(st==='connected')this.setState('On call','live');else if(['failed','disconnected','closed'].includes(st))this.hangup(st==='failed'?'connection failed':'call ended')};
+      this.setState('Connecting…','busy');
+      await pc.setLocalDescription(await pc.createOffer());
+      await new Promise(res=>{if(pc.iceGatheringState==='complete')return res();const t=setTimeout(res,1500);pc.onicegatheringstatechange=()=>{if(pc.iceGatheringState==='complete'){clearTimeout(t);res()}}});
+      const r=await fetch(BOT_URL()+'/api/offer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sdp:pc.localDescription.sdp,type:pc.localDescription.type})});
+      if(!r.ok)throw new Error('bot answered HTTP '+r.status+' — is voice_bot.py running?');
+      await pc.setRemoteDescription(await r.json());
+      this.meter(true); this.t0=Date.now(); lastLiveId=null;
+    }catch(e){this.hangup(null);toast(String(e.message||e).includes('Failed to fetch')?'Cannot reach the bot on :7860 — start voice_bot.py':String(e.message||e));}
+  },
+  hangup(why){
+    if(this.pc){try{this.pc.close()}catch(e){}this.pc=null}
+    if(this.stream){this.stream.getTracks().forEach(t=>t.stop());this.stream=null}
+    this.meter(false); this.t0=null; this.setState(why||'Not connected','idle');
+  },
+  meter(on){
+    const m=$('#meter');const bars=[...m.children];
+    if(!on){cancelAnimationFrame(this.raf);if(this.ctx){this.ctx.close().catch(()=>{});this.ctx=null}m.classList.remove('on');bars.forEach(b=>b.style.height='20%');return}
+    const ctx=this.ctx=new (window.AudioContext||window.webkitAudioContext)();const src=ctx.createMediaStreamSource(this.stream);const an=ctx.createAnalyser();an.fftSize=256;src.connect(an);const data=new Uint8Array(an.frequencyBinCount);m.classList.add('on');
+    const tick=()=>{an.getByteFrequencyData(data);let sum=0;for(const v of data)sum+=v;const lvl=Math.min(1,(sum/data.length)/90);bars.forEach((b,i)=>b.style.height=(20+80*Math.max(0,lvl-i*0.15))+'%');this.raf=requestAnimationFrame(tick)};tick();
+  }
+};
+window.addEventListener('beforeunload',()=>call.hangup());
+
+// ---------- live
+let lastLiveId=null, lastLen=0;
+const EV_LABEL={input_trigger:'Trigger detected',outcome_recorded:'Outcome recorded',output_violation:'Output filtered',forced_transfer:'Forced hand-off',outcome_rejected:'Outcome rejected',outcome_coerced:'Outcome coerced',outcome_replaced:'Outcome replaced',tool_refused:'Tool refused',outcome_missing_at_end:'No outcome at hang-up',budget_nudge:'Turn budget nudge',otp_failed:'OTP failed',otp_verified:'OTP verified'};
+const EV_CLASS={input_trigger:'green',outcome_recorded:'green',otp_verified:'green',output_violation:'red',forced_transfer:'red',outcome_rejected:'red',tool_refused:'amber',outcome_missing_at_end:'amber',budget_nudge:'amber',outcome_coerced:'amber',otp_failed:'amber',outcome_replaced:'amber'};
+const fmtDur=s=>{s=Math.max(0,s|0);return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`};
+const toolSummary=t=>{const m=/^(\w+)\((.*)\) -> (.*)$/s.exec(t.text||'');if(!m)return null;let args={},res={};try{args=JSON.parse(m[2])}catch(e){}try{res=JSON.parse(m[3])}catch(e){}
+  const n=m[1];let s='';if(n==='confirm_identity')s=args.confirmed?'card holder confirmed':'not the card holder';else if(n==='verify_otp')s=res.verified?'verified ✓':`failed (${res.attempts_left??'?'} left)`;else if(n==='get_account_summary')s=res.outstanding_inr!=null?`outstanding ${inr(res.outstanding_inr)} · min due ${inr(res.minimum_due_inr)}`:(res.error||'');else if(n==='record_outcome')s=`${OUT_LABEL[args.outcome]||args.outcome||''}${args.callback_reason?' · '+args.callback_reason:''}${args.amount_inr?' · '+inr(args.amount_inr):''}${args.promised_date?' · '+args.promised_date:''}`;else if(n==='request_transfer')s=`→ human · ${args.reason||''}`;else s=JSON.stringify(args).slice(0,80);
+  if(res.error)s=(s?s+' · ':'')+'⚠ '+res.error; return {name:n,summary:s,args,res}};
+const stepState=(ok,fail,now)=>fail?'fail':ok?'done':now?'now':'';
+async function loadLive(){
+  let c; try{c=await api('/api/calls/live')}catch(e){return}
+  const cust=c.customer||{};
+  const live=!c.ended;
+  $('#liveStatus').innerHTML=`${live?'<span class="pill ok"><span class="dot"></span>live</span>':'<span class="pill gray">ended</span>'}<span class="sep"></span><span><b>${esc(cust.name||c.customer_id)}</b></span><span class="sep"></span><span class="pill brand">${c.prompt_version}</span><span class="sep"></span><span class="mono">${fmtDur(c.duration_sec)}</span><span class="muted">· ${c.bot_turns} turn${c.bot_turns===1?'':'s'}</span><span class="sep"></span><span class="muted mono" title="${c.call_id}">${c.call_id.slice(0,8)}</span>`;
+  const ttfb=(c.guardrail_events||[]).find(e=>e.kind==='ttfb_summary');let lat='';if(ttfb){const tts=Object.entries(ttfb).find(([k])=>/TTS/.test(k));const llm=Object.entries(ttfb).find(([k])=>/LLM/.test(k));const med=a=>{const b=[...a].sort((x,y)=>x-y);return b.length?b[Math.floor(b.length/2)]:null};if(llm&&tts)lat=` · LLM ${med(llm[1])}s · TTS ${med(tts[1])}s (median)`}
+  $('#liveHeader').textContent=`${c.transcript.filter(t=>t.role!=='tool').length} messages${lat}`;
+  // customer card
+  const idState=c.identity_confirmed===true?'done':c.identity_confirmed===false?'fail':(live?'now':'');
+  const otpState=c.otp_verified?'done':(c.guardrail_events||[]).some(e=>e.kind==='otp_failed')?'fail':(idState==='done'&&live?'now':'');
+  const acct=(c.tool_calls||[]).some(t=>t.name==='get_account_summary'&&!(t.result||{}).error);
+  const outState=c.outcome?'done':(live?'':'fail');
+  $('#liveCustomer').innerHTML=`<div class="cust-name">${esc(cust.name||'—')}</div><div class="cust-id">${esc(cust.customer_id||'')} · mobile ····${esc(cust.mobile_last4||'')}</div>
+    <div class="chips"><span class="pill ${cust.days_past_due<=7?'ok':cust.days_past_due<=15?'warn':'bad'}">DPD ${cust.days_past_due??'—'}</span><span class="pill gray">${esc(cust.dpd_bucket||'')}</span><span class="pill gray">${esc(cust.balance_band||'')}</span></div>
+    <div class="figs"><div class="fig"><div class="l">Outstanding</div><div class="v">${inr(cust.outstanding_inr)}</div></div><div class="fig"><div class="l">Minimum due</div><div class="v">${inr(cust.minimum_due_inr)}</div></div><div class="fig"><div class="l">Late fee</div><div class="v">${cust.late_fee_inr?inr(cust.late_fee_inr):'none'}</div></div><div class="fig"><div class="l">Language on call</div><div class="v">${esc(c.outcome?.language_mix||'—')}</div></div></div>
+    <div class="steps">
+      <div class="step ${idState}"><i>${idState==='done'?'✓':idState==='fail'?'✕':'1'}</i>Identity ${idState==='done'?'confirmed':idState==='fail'?'— third party / wrong number':'pending'}</div>
+      <div class="step ${otpState}"><i>${otpState==='done'?'✓':otpState==='fail'?'✕':'2'}</i>OTP ${otpState==='done'?'verified':otpState==='fail'?'failed':'not verified'}</div>
+      <div class="step ${acct?'done':''}"><i>${acct?'✓':'3'}</i>Account ${acct?'shared after OTP':'not disclosed'}</div>
+      <div class="step ${outState}"><i>${outState==='done'?'✓':outState==='fail'?'✕':'4'}</i>Outcome ${outState==='done'?(OUT_LABEL[c.outcome.outcome]||c.outcome.outcome):outState==='fail'?'missing':'pending'}</div>
+    </div>`;
+  // transcript
+  const chat=$('#chat');
+  if(c.call_id!==lastLiveId||c.transcript.length<lastLen){chat.innerHTML='';lastLen=0;lastLiveId=c.call_id}
+  c.transcript.slice(lastLen).forEach(t=>{const d=document.createElement('div');
+    if(t.role==='tool'){const ts=toolSummary(t);d.className='toolchip';d.innerHTML=ts?`<details><summary><span>⚙</span><span class="k">${esc(ts.name)}</span><span class="muted">${esc(ts.summary)}</span></summary><pre>${esc(JSON.stringify({args:ts.args,result:ts.res},null,2))}</pre></details>`:`<div style="padding:6px 10px" class="mono">${esc(t.text)}</div>`}
+    else{const prev=chat.lastElementChild;
+      if(prev&&prev.classList.contains('turn')&&prev.classList.contains(t.role)&&t.t-(+prev.dataset.t)<4){const b=prev.querySelector('.bubble');b.firstChild.nodeValue+=' '+t.text;b.querySelector('.meta').textContent=`${t.role==='bot'?'Priya (bot)':'Customer'} · ${fmtDur(+prev.dataset.t0)}`;prev.dataset.t=t.t;return}
+      d.className='turn '+t.role;d.dataset.t=t.t;d.dataset.t0=t.t;d.innerHTML=`<div class="avatar">${t.role==='bot'?'P':'C'}</div><div class="bubble">${esc(t.text)}<div class="meta">${t.role==='bot'?'Priya (bot)':'Customer'} · ${fmtDur(t.t)}</div></div>`}
+    chat.appendChild(d)});
+  const grew=c.transcript.length>lastLen; lastLen=c.transcript.length; if(grew&&!c.ended)chat.scrollTop=chat.scrollHeight;
+  if(c.ended&&call.pc&&call.t0&&Date.parse(c.started_at)>call.t0-5000)call.hangup('call ended');
+  // outcome
+  const o=c.outcome;
+  if(o){const cls='ob-'+(OUT_CLASS[o.outcome]||'gray');const sub=o.callback_reason||o.transfer_reason||(o.ptp_amount_inr?`${inr(o.ptp_amount_inr)} by ${o.ptp_date||'—'}`:'')||(o.paid_mode?`${o.paid_mode} on ${o.paid_date||'—'}`:'');
+    const rows=[['Amount',o.ptp_amount_inr?inr(o.ptp_amount_inr):null],['Promised date',o.ptp_date],['Payment mode',o.paid_mode],['Payment date',o.paid_date],['Callback time',o.callback_time],['Reason',o.callback_reason||o.transfer_reason],['OTP verified',o.otp_verified?'yes':'no'],['Language',o.language_mix],['Duration',o.duration_sec!=null?fmtDur(o.duration_sec):null]].filter(([k,v])=>v!=null&&v!=='');
+    $('#liveOutcome').innerHTML=`<div class="outcome-badge ${cls}"><div><div class="t">${OUT_LABEL[o.outcome]||o.outcome}</div><div class="s">${esc(sub)}</div></div></div><div class="kv">${rows.map(([k,v])=>`<div class="k">${k}</div><div class="v">${esc(v)}</div>`).join('')}</div>${o.customer_note?`<div class="note">“${esc(o.customer_note)}”</div>`:''}`;
+    $('#liveOutcomeRaw').textContent=JSON.stringify(o,null,2);}
+  else{$('#liveOutcome').innerHTML=`<div class="outcome-badge ob-gray"><div><div class="t">Not recorded yet</div><div class="s">${live?'the bot records the moment it has what it needs':'call ended without an outcome'}</div></div></div>`;$('#liveOutcomeRaw').textContent='—'}
+  $('#liveWebhook').innerHTML=c.webhook_result?`Webhook <span class="pill ${c.webhook_result.status==='ok'?'ok':'bad'}">${c.webhook_result.status}</span> ${c.webhook_result.http?'HTTP '+c.webhook_result.http:''} ${c.webhook_result.error?esc(c.webhook_result.error):''}`:'';
+  // events
+  const ev=(c.guardrail_events||[]).filter(e=>e.kind!=='ttfb_summary');
+  const bad=ev.filter(e=>EV_CLASS[e.kind]==='red').length;
+  $('#evSummary').textContent=ev.length?`${ev.length} event${ev.length===1?'':'s'} · ${bad} violation${bad===1?'':'s'}`:'';
+  $('#liveEvents').innerHTML=ev.length?ev.map(e=>{const detail=[e.reason,e.matched?`“${e.matched}”`:null,e.outcome,e.tool,e.detail,e.error].filter(Boolean).map(esc).join(' · ');return `<div class="evi ${EV_CLASS[e.kind]||''}"><span class="dotc"></span><div><b>${EV_LABEL[e.kind]||e.kind}</b>${e.rule?` <span class="muted">${e.rule}</span>`:''}${detail?`<div class="d">${detail}</div>`:''}</div><span class="t">${fmtDur(e.t)}</span></div>`}).join(''):'<span class="muted">No events yet.</span>';
+}
+
+// ---------- compare
+
+async function loadVersions(){
+  if($('#versionCards').dataset.loaded)return; const vs=await api('/api/versions'); window._versions=vs; $('#versionCards').dataset.loaded=1;
+  const FL={identity_gate:'identity gate',otp_gate:'OTP gate',output_filter:'output filter',input_triggers:'trigger → hand-off',outcome_validation:'strict outcome',turn_budget:'turn budget'};
+  $('#versionCards').innerHTML=vs.map(v=>`<div class="vcard ${v.version}"><div class="row" style="justify-content:space-between"><span class="pill brand">${v.version}</span><span class="linkish" onclick="showPrompt('${v.version}')">view prompt →</span></div><div class="ttl">${esc(v.name)}</div><div class="mini" style="color:#c5cee0">${esc(v.summary)}</div><ul>${v.changes.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><div class="gflags">${Object.entries(FL).map(([k,l])=>`<span class="${v.guardrails[k]?'on':''}">${v.guardrails[k]?'✓ ':'– '}${l}</span>`).join('')}</div><div class="fails"><b>Where it fails:</b> ${esc(v.fails_on)}</div></div>`).join('');
+}
+function showPrompt(ver){const v=window._versions.find(x=>x.version===ver);openModal(`${ver} · system prompt as the model sees it (for the selected customer)`,`<div class="mini" style="margin-bottom:8px">${esc(v.name)} · ${v.prompt.length.toLocaleString()} characters</div><pre style="max-height:70vh">${esc(v.prompt)}</pre>`)}
+async function loadCompare(){
+  loadVersions();
+  const runs=await api('/api/eval/runs'); const sel=$('#selRun');
+  if(!sel.dataset.loaded){ const best=[...runs].sort((a,b)=>b.versions.length-a.versions.length||(b.id>a.id?1:-1))[0]; sel.innerHTML=runs.map(r=>`<option value="${r.id}" ${best&&r.id===best.id?'selected':''}>${r.id.slice(0,8)} ${r.id.slice(9,11)}:${r.id.slice(11,13)} · ${r.versions.join(' vs ')} · ${r.scenarios} scenarios</option>`).join(''); sel.dataset.loaded=1; sel.onchange=renderRun;
+    const scs=await api('/api/scenarios'); $('#selScenario').innerHTML=scs.map(s=>`<option value="${s.id}">${s.id} · ${s.title} (${s.difficulty})</option>`).join(''); $('#btnRun').onclick=runNow; }
+  renderRun();
+}
+async function renderRun(){
+  const id=$('#selRun').value; if(!id)return; const run=await api('/api/eval/'+id); const rows=run.rows;
+  const versions=[...new Set(rows.map(r=>r.version))].sort(); const ids=[...new Set(rows.map(r=>r.scenario_id))];
+  $('#compareKpis').innerHTML=versions.map(v=>{const rs=rows.filter(r=>r.version===v);const f=rs.filter(r=>r.delivered_fail).length;const raw=rs.filter(r=>r.raw_fail).length;const sev=rs.filter(r=>+r.judge_severity>=2).length;return `<div class="card kpi"><div class="v">${rs.length-f}/${rs.length} <span class="muted" style="font-size:13px">passed</span></div><div class="l"><b>${v}</b> · ${pct(f/rs.length)} failed as delivered · ${pct(raw/rs.length)} would have failed without guardrails</div><div class="d muted">${sev} serious failure${sev===1?'':'s'}</div></div>`}).join('')+`<div class="card kpi"><div class="v">${ids.length}</div><div class="l">scenarios · judge ${CFG.models.judge}</div></div>`;
+  const byKey={}; rows.forEach(r=>byKey[r.scenario_id+'|'+r.version]=r);
+  $('#matrix').innerHTML=`<tr><th>ID</th><th>Scenario</th><th>Difficulty</th><th>Source</th>${versions.map(v=>`<th style="text-align:center">${v}</th>`).join('')}</tr>`+ids.map(sid=>{const any=rows.find(r=>r.scenario_id===sid);return `<tr><td class="mono">${sid}</td><td>${esc(any.title)}</td><td><span class="pill ${any.difficulty==='trap'?'bad':any.difficulty==='tricky'?'warn':'ok'}">${any.difficulty}</span></td><td class="muted">${any.source}</td>${versions.map(v=>{const r=byKey[sid+'|'+v];if(!r)return '<td class="cell">—</td>';const b=(r.fail_buckets_delivered||'').split(';').filter(Boolean).join(' · ');return `<td class="cell ${r.delivered_fail?'fail':'pass'}" onclick='showRow(${JSON.stringify(sid)},${JSON.stringify(v)})'>${r.delivered_fail?'✗ '+b:(r.raw_fail?'<span class="pill info">✓ caught</span>':'✓')}</td>`}).join('')}</tr>`}).join('');
+  window._run=byKey;
+}
+function showRow(sid,v){const r=window._run[sid+'|'+v];const j=['factual','compliance','scope','adherence','outcome','tone'].map(b=>`<tr><td>${b}</td><td>${r['judge_'+b]==='True'?'<span class="pill ok">pass</span>':r['judge_'+b]==='False'?'<span class="pill bad">fail</span>':'<span class="pill gray">—</span>'}</td><td class="muted">${esc(r['judge_'+b+'_evidence'])}</td></tr>`).join('');
+  openModal(`${sid} · ${v} · ${r.title}`,`<div class="row" style="margin-bottom:10px"><span class="pill ${r.delivered_fail?'bad':'ok'}">${r.delivered_fail?'FAIL':'PASS'}</span> expected <b>${esc(r.outcome_expected)}</b> · got <b>${esc(r.outcome_actual)}</b> · severity ${r.judge_severity||'—'} · LLM p50 ${r.llm_p50_latency}s</div><p><b>Judge's worst moment:</b> ${esc(r.judge_worst_moment||'none')}</p><table>${j}</table><h2 style="margin-top:14px">Transcript</h2><pre>${esc(r.transcript)}</pre>`)}
+async function runNow(){
+  const versions=$$('.rv:checked').map(x=>x.value); if(!versions.length)return toast('Pick at least one version');
+  $('#btnRun').disabled=true;$('#runStatus').textContent='running…';$('#runResults').innerHTML='';
+  const {job_id}=await post('/api/run_scenario',{scenario_id:$('#selScenario').value,versions,judge:$('#chkJudge').checked});
+  const poll=setInterval(async()=>{const j=await api('/api/jobs/'+job_id);const done=Object.keys(j.results);$('#runStatus').textContent=`${j.status} · ${done.length}/${versions.length} done`;
+    $('#runResults').innerHTML=versions.map(v=>{const r=j.results[v];if(!r)return `<div class="card"><h2>${v}</h2><span class="muted">running…</span></div>`;const s=r.score;return `<div class="card"><div class="row" style="justify-content:space-between"><h2>${v}</h2><span class="pill ${s.delivered_fail?'bad':'ok'}">${s.delivered_fail?'FAIL '+s.fail_buckets_delivered:'PASS'}${s.raw_fail&&!s.delivered_fail?' (raw ✗)':''}</span></div><div class="muted" style="margin-bottom:8px">expected ${esc(s.outcome_expected)} · got ${esc(s.outcome_actual)} · turns ${s.bot_turns} · LLM p50 ${s.llm_p50_latency}s${s.judge_severity!=null&&s.judge_severity!==''?' · severity '+s.judge_severity:''}</div>${s.judge_worst_moment?`<div class="ev">${esc(s.judge_worst_moment)}</div>`:''}<pre style="max-height:520px">${esc(r.transcript)}</pre></div>`}).join('');
+    if(j.status!=='running'){clearInterval(poll);$('#btnRun').disabled=false;}},1500);
+}
+
+
+// ---------- dashboard
+const DASH={days:0,channel:'voice',version:'all'};
+$$('#segDays button').forEach(b=>b.onclick=()=>{$$('#segDays button').forEach(x=>x.classList.remove('on'));b.classList.add('on');DASH.days=+b.dataset.v;loadDash()});
+$$('#segChannel button').forEach(b=>b.onclick=()=>{$$('#segChannel button').forEach(x=>x.classList.remove('on'));b.classList.add('on');DASH.channel=b.dataset.v;loadDash()});
+$('#dashVersion').onchange=e=>{DASH.version=e.target.value;loadDash()};
+function donut(id,parts){const R=46,r=30,C=2*Math.PI*R;const total=parts.reduce((a,p)=>a+p.v,0)||1;let off=0;let svg=`<svg viewBox="0 0 120 120" width="120" height="120">`;
+  parts.forEach(p=>{const len=C*p.v/total;svg+=`<circle cx="60" cy="60" r="${R}" fill="none" stroke="${p.c}" stroke-width="${R-r}" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"><title>${p.l}: ${p.v}</title></circle>`;off+=len});
+  svg+=`<text x="60" y="56" text-anchor="middle" fill="#e6eaf2" font-size="20" font-weight="700">${total===1&&!parts.some(p=>p.v)?0:parts.reduce((a,p)=>a+p.v,0)}</text><text x="60" y="72" text-anchor="middle" fill="#8b97b0" font-size="10">calls</text></svg>`;$('#'+id).innerHTML=svg}
+function lineChart(id,labels,series){const W=620,H=190,L=34,B=30,T=10,R=10;const n=Math.max(1,labels.length);const max=Math.max(1,...series.flatMap(s=>s.data));const x=i=>L+(W-L-R)*(n===1?0.5:i/(n-1));const y=v=>T+(H-T-B)*(1-v/max);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="font-family:inherit;font-size:10.5px">`;[0,0.5,1].forEach(f=>{const yy=y(max*f);svg+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="#223050"/><text x="${L-6}" y="${yy+4}" text-anchor="end" fill="#8b97b0">${Math.round(max*f)}</text>`});
+  series.forEach(s=>{const pts=s.data.map((v,i)=>`${x(i)},${y(v)}`).join(' ');if(s.area)svg+=`<polygon points="${x(0)},${y(0)} ${pts} ${x(n-1)},${y(0)}" fill="${s.color}" opacity=".12"/>`;svg+=`<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round"/>`;s.data.forEach((v,i)=>svg+=`<circle cx="${x(i)}" cy="${y(v)}" r="2.5" fill="${s.color}"><title>${labels[i]} · ${s.label}: ${v}</title></circle>`)});
+  const step=Math.ceil(n/8);labels.forEach((l,i)=>{if(i%step===0||i===n-1)svg+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" fill="#8b97b0">${esc(l)}</text>`});
+  $('#'+id).innerHTML=svg+'</svg>'}
+async function loadDash(){
+  const a=await api(`/api/analytics?channel=${DASH.channel}&version=${DASH.version}&days=${DASH.days}`);const t=a.total;const n=t.calls||0;
+  if(!a.funnel){$('#dashKpis').innerHTML='<div class="card" style="grid-column:1/-1"><b>Console backend is out of date.</b> Restart it: Ctrl+C in the console tab, then <code>uv run python console.py</code>.</div>';return}
+  const lat=a.latency;
+  $('#dashKpis').innerHTML=[
+    [n,'calls handled',`${t.needs_human} need a human`],
+    [pct(t.ptp_rate),'promise-to-pay rate',`${t.outcomes.promise_to_pay||0} promises`],
+    [pct(t.otp_verified_rate),'OTP verified',`${a.funnel[1][1]} identities confirmed`],
+    [pct(t.transfer_rate),'transferred to human',`${a.violations} guardrail violation${a.violations===1?'':'s'}`],
+    [lat.llm_p50!=null?`${lat.llm_p50.toFixed(2)}s`:'—','LLM first token (p50)',lat.tts_p50!=null?`TTS first audio ${lat.tts_p50.toFixed(2)}s · ${fmtDur(t.median_duration_sec)} median call`:''],
+  ].map(([v,l,d])=>`<div class="card kpi"><div class="v">${v}</div><div class="l">${l}</div><div class="d muted">${d}</div></div>`).join('');
+  // timeline: hourly if the window is a day or the data spans one day
+  const useHour=DASH.days===1||Object.keys(a.timeline).length<=1;const tl=useHour?a.timeline_hourly:a.timeline;const labels=Object.keys(tl).map(k=>useHour?k.slice(11,16):k.slice(5));
+  const sk=['promise_to_pay','already_paid','callback_request','dispute_or_transfer'];
+  const tlv=Object.values(tl);chart('chTimeline',labels.length?labels:['—'],sk.map(k=>({label:OUT_LABEL[k],backgroundColor:COLORS[k],data:tlv.map(c=>c[k]||0)})));
+  $('#tlNote').textContent=(useHour?'calls per hour (UTC), stacked by outcome':'calls per day, stacked by outcome');
+  const parts=sk.map(k=>({l:OUT_LABEL[k],v:t.outcomes[k]||0,c:COLORS[k]}));donut('chDonut',parts);
+  $('#donutLegend').innerHTML=parts.map(p=>`<span title="${OUT_HELP[Object.keys(OUT_LABEL).find(k=>OUT_LABEL[k]===p.l)]}"><i style="background:${p.c}"></i>${p.l} <b style="color:#e6eaf2">${p.v}</b> <span class="muted">${n?pct(p.v/n):''}</span></span>`).join('');$('#mixNote').textContent=`${n} calls`;
+  const f=a.funnel;const base=f[0][1]||1;$('#funnel').innerHTML=f.map(([l,v])=>`<div class="frow"><span>${l}</span><div class="bar"><i style="width:${100*v/base}%"></i></div><span class="n">${v}<span class="pct">${pct(v/base)}</span></span></div>`).join('');
+  const gk=Object.entries(a.guardrail_kinds);const gmax=Math.max(1,...gk.map(([,v])=>v));$('#chGuard').innerHTML=gk.length?gk.map(([k,v])=>`<div class="hbar"><span>${EV_LABEL[k]||k}</span><div class="b"><i style="width:${100*v/gmax}%;background:${EV_CLASS[k]==='red'?'#f87171':EV_CLASS[k]==='green'?'#34d399':'#fbbf24'}"></i></div><span style="text-align:right;font-weight:600">${v}</span></div>`).join(''):'<span class="muted">No guardrail events in this window.</span>';
+  $('#gNote').textContent=`${a.violations} violation${a.violations===1?'':'s'} caught`;
+  const q=a.queue;const PR={P1:['Critical','abuse · medical · bereavement'],P2:['High','job loss · asked for a human · fraud · settlement'],P3:['Normal','billing dispute · waiver · OTP failed · hung up'],P4:['Low','customer busy · family answered'],P5:['Admin','wrong number']};const PC={P1:'#f87171',P2:'#fb923c',P3:'#6c8cff',P4:'#8b97b0',P5:'#64748b'};
+  $('#dashQueue').innerHTML=`<div class="grid g3" style="gap:8px;margin-bottom:12px"><div class="fig"><div class="l">Waiting for a human</div><div class="v">${q.pending}</div></div><div class="fig"><div class="l">With an agent</div><div class="v">${q.assigned}</div></div><div class="fig"><div class="l">Closed</div><div class="v">${q.closed}</div></div></div>
+    <div class="mini" style="margin-bottom:6px">Pending, by urgency</div>`+(q.pending?Object.keys(PR).filter(p=>q.by_priority[p]).map(p=>`<div class="hbar" style="grid-template-columns:1fr auto;margin-bottom:8px"><div><span style="color:${PC[p]};font-weight:700">${PR[p][0]}</span> <span class="muted">· ${PR[p][1]}</span><div class="b" style="margin-top:4px"><i style="width:${100*q.by_priority[p]/Math.max(1,q.pending)}%;background:${PC[p]}"></i></div></div><span style="font-weight:700;font-size:14px;align-self:center">${q.by_priority[p]}</span></div>`).join(''):'<div class="muted" style="font-size:12px">Nothing waiting — every hand-off has been picked up.</div>')+
+    (Object.keys(q.by_agent).length?`<div class="mini" style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">Open with agents: ${Object.entries(q.by_agent).map(([k,v])=>`${esc(k)} <b style="color:#e6eaf2">${v}</b>`).join(' · ')}</div>`:'');
+  const vs=Object.entries(a.by_version);const VH2={v1:'baseline',v2:'rewritten prompt',v3:'prompt + guardrails'};
+  $('#tblVersions').innerHTML='<tr><th>Version</th><th>Calls</th><th>PTP</th><th>Paid</th><th>Callback</th><th>To human</th><th>OTP ✓</th><th>Median</th><th>Guardrail hits/call</th></tr>'+vs.map(([v,g])=>`<tr><td><span class="pill brand">${v}</span> <span class="muted">${VH2[v]||''}</span></td><td>${g.calls}</td><td>${pct(g.ptp_rate)}</td><td>${pct(g.already_paid_rate)}</td><td>${pct(g.callback_rate)}</td><td>${pct(g.transfer_rate)}</td><td>${pct(g.otp_verified_rate)}</td><td>${fmtDur(g.median_duration_sec)}</td><td>${g.guardrail_hits_per_call}</td></tr>`).join('')+(vs.length<3?`<tr><td colspan="9" class="muted" style="font-size:12px">Only ${vs.map(x=>x[0]).join(', ')} appear in <b>${DASH.channel==='voice'?'live voice calls':DASH.channel}</b> for this window. The stress-test scorecard above compares all three on the same 22 scenarios.</td></tr>`:'');
+  loadScorecard();
+  $('#tblDashRecent').innerHTML='<tr><th>When</th><th>Customer</th><th>Ver.</th><th>Outcome</th></tr>'+a.recent.slice(0,8).map(r=>`<tr class="click" onclick="showCall('${r.call_id}')"><td class="muted">${(r.started_at||'').slice(5,16).replace('T',' ')}</td><td>${esc(r.customer.name)}</td><td>${r.prompt_version}</td><td><span class="pill ${OUT_CLASS[r.outcome]||'gray'}">${OUT_LABEL[r.outcome]||r.outcome||'—'}</span></td></tr>`).join('');
+}
+
+async function loadScorecard(){
+  if($('#scorecard').dataset.loaded)return; try{
+  const runs=await api('/api/eval/runs');const best=[...runs].sort((a,b)=>b.versions.length-a.versions.length||(b.id>a.id?1:-1))[0];if(!best)return;
+  const run=await api('/api/eval/'+best.id);const rows=run.rows;const VH2={v1:'Baseline · brief prompt, no guardrails',v2:'Rewritten prompt, no guardrails',v3:'Rewritten prompt + code guardrails'};const VC={v1:'#f87171',v2:'#fbbf24',v3:'#34d399'};
+  $('#scorecard').innerHTML=[...new Set(rows.map(r=>r.version))].sort().map(v=>{const rs=rows.filter(r=>r.version===v);const pass=rs.filter(r=>!r.delivered_fail).length;const caught=rs.filter(r=>!r.delivered_fail&&r.raw_fail).length;return `<div class="vcard ${v}" style="gap:4px"><div class="row" style="justify-content:space-between"><span class="pill brand">${v}</span><span class="mini">${esc(VH2[v])}</span></div><div style="font-size:26px;font-weight:700;color:${VC[v]}">${pass}<span style="font-size:13px;color:var(--muted);font-weight:500"> / ${rs.length} scenarios passed</span></div><div class="b" style="height:8px;border-radius:4px;background:#223050;overflow:hidden"><i style="display:block;height:100%;width:${100*pass/rs.length}%;background:${VC[v]}"></i></div><div class="mini">${rs.length-pass} failed${caught?` · ${caught} saved by guardrails`:''}</div></div>`}).join('');
+  $('#scorecard').dataset.loaded=1;}catch(e){}
+}
+
+// ---------- analytics
+// Dependency-free stacked bar chart (SVG), so the console works on networks that block CDNs.
+function chart(id,labels,datasets){
+  const W=520,H=210,L=36,B=46,T=12,R=8; const n=labels.length||1; const totals=labels.map((_,i)=>datasets.reduce((a,d)=>a+(d.data[i]||0),0)); const max=Math.max(1,...totals);
+  const bw=Math.min(64,(W-L-R)/n*0.6), step=(W-L-R)/n; const y=v=>T+(H-T-B)*(1-v/max);
+  let svg=`<svg viewBox="0 0 ${W} ${H+28}" width="100%" style="font-family:inherit;font-size:11px">`;
+  [0,0.5,1].forEach(f=>{const yy=y(max*f);svg+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="#223050"/><text x="${L-6}" y="${yy+4}" text-anchor="end" fill="#8b97b0">${Math.round(max*f)}</text>`});
+  labels.forEach((lab,i)=>{let acc=0;const x=L+step*i+(step-bw)/2;datasets.forEach(d=>{const v=d.data[i]||0;if(!v)return;const y1=y(acc+v),y0=y(acc);svg+=`<rect x="${x}" y="${y1}" width="${bw}" height="${y0-y1}" fill="${d.backgroundColor}" rx="2"><title>${lab} · ${d.label}: ${v}</title></rect>`;acc+=v});
+    if(acc)svg+=`<text x="${x+bw/2}" y="${y(acc)-4}" text-anchor="middle" fill="#e6eaf2" font-weight="600">${acc}</text>`;
+    svg+=`<text x="${x+bw/2}" y="${H-B+16}" text-anchor="middle" fill="#8b97b0">${esc(lab)}</text>`});
+  let lx=L; datasets.forEach(d=>{svg+=`<rect x="${lx}" y="${H+6}" width="10" height="10" fill="${d.backgroundColor}" rx="2"/><text x="${lx+14}" y="${H+15}" fill="#8b97b0">${d.label}</text>`;lx+=d.label.length*6.2+30});
+  $('#'+id).innerHTML=svg+'</svg>';
+}
+function outcomeDatasets(groups){const keys=Object.keys(groups);return Object.keys(OUT_LABEL).map(o=>({label:OUT_LABEL[o],backgroundColor:COLORS[o],data:keys.map(k=>(groups[k].outcomes[o]||0))}))}
+async function loadAnalytics(){
+  $('#selChannel').onchange=loadAnalytics; $('#glossary').innerHTML=GLOSSARY_HTML;
+  const a=await api('/api/analytics?channel='+$('#selChannel').value); const t=a.total;
+  $('#kpis').innerHTML=[[t.calls,'calls'],[pct(t.ptp_rate),'promise-to-pay rate'],[pct(t.already_paid_rate),'already-paid rate'],[pct(t.transfer_rate),'transferred to human'],[pct(t.otp_verified_rate),'OTP verified'],[t.median_duration_sec+'s','median duration']].map(([v,l])=>`<div class="card kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  chart('chVersion',Object.keys(a.by_version),outcomeDatasets(a.by_version));
+  chart('chDpd',Object.keys(a.by_dpd),outcomeDatasets(a.by_dpd));
+  chart('chBal',Object.keys(a.by_balance),outcomeDatasets(a.by_balance));
+  chart('chLang',Object.keys(a.by_language),outcomeDatasets(a.by_language));
+  const reasons=Object.entries(t.reasons).sort((x,y)=>y[1]-x[1]);
+  $('#tblReasons').innerHTML='<tr><th>Reason</th><th>Calls</th><th>Share</th></tr>'+reasons.map(([r,n])=>`<tr><td>${REASON_LABEL[r]||r}</td><td>${n}</td><td class="muted">${pct(n/t.calls)}</td></tr>`).join('')+`<tr><td><b>Needs a human</b></td><td><b>${t.needs_human}</b></td><td class="muted">${pct(t.needs_human/t.calls)}</td></tr>`;
+  $('#tblRecent').innerHTML='<tr><th>When</th><th>Customer</th><th>Ver.</th><th>Outcome</th><th>Guardrail hits</th></tr>'+a.recent.map(r=>`<tr class="click" onclick="showCall('${r.call_id}')"><td class="muted">${(r.started_at||'').slice(5,16).replace('T',' ')}</td><td>${esc(r.customer.name)}<br><span class="muted">${r.channel}</span></td><td>${r.prompt_version}</td><td><span class="pill ${OUT_CLASS[r.outcome]||'gray'}">${OUT_LABEL[r.outcome]||r.outcome||'—'}</span> <span class="muted">${REASON_LABEL[r.reason]||r.reason||''}</span></td><td>${r.guardrail_hits}</td></tr>`).join('');
+}
+async function showCall(id){const c=await api('/api/calls/'+id);openModal(`Call ${id.slice(0,8)} · ${c.customer.name} · ${c.prompt_version}`,`<div class="chat" style="max-height:60vh">${c.transcript.map(t=>`<div class="msg ${t.role}">${t.role==='tool'?esc(t.text):`<div class="who">${t.role}</div>${esc(t.text)}`}</div>`).join('')}</div><h2 style="margin-top:12px">Outcome</h2><pre>${esc(JSON.stringify(c.outcome,null,2))}</pre>`)}
+
+// ---------- queue
+async function loadQueue(){
+  $('#selQStatus').onchange=loadQueue; $('#btnAuto').onclick=async()=>{const r=await post('/api/queue/auto_assign',{});toast(`Assigned ${r.assigned} item(s)`);loadQueue();refreshCounts()};
+  const items=await api('/api/queue?status='+$('#selQStatus').value);
+  if(!items.length){$('#queueList').innerHTML='<span class="muted">Nothing in this view.</span>';return}
+  const agentOpts=a=>`<option value="">— unassigned —</option>`+CFG.agents.map(x=>`<option value="${x.id}" ${x.id===a?'selected':''}>${x.name} · ${x.team}</option>`).join('');
+  $('#queueList').innerHTML=items.map(i=>`<div class="queue-item">
+    <div><span class="prio p${i.priority}">P${i.priority}</span></div>
+    <div><b>${esc(i.customer.name)}</b> <span class="muted mono">${i.customer.customer_id}</span><br><span class="pill ${i.kind==='transfer'?'bad':'warn'}">${i.kind}</span> <span class="pill gray">${i.reason}</span> <span class="pill brand">${i.prompt_version}</span><div class="ctx">${inr(i.customer.outstanding_inr)} outstanding · min due ${inr(i.customer.minimum_due_inr)} · ${i.customer.dpd_bucket} · ${i.language_mix||'—'} · OTP ${i.otp_verified?'verified':'not verified'} · ${i.duration_sec}s<br>${(i.started_at||'').slice(0,16).replace('T',' ')} · <a href="#" onclick="showCall('${i.call_id}');return false">transcript</a></div></div>
+    <div><div><b>Bot's note:</b> ${esc(i.customer_note||'—')}</div><div class="ctx" style="margin-top:4px"><b>Last exchange:</b> “${esc(i.last_customer)}” → “${esc(i.last_bot)}”</div><div class="ev green" style="margin-top:6px">${esc(i.suggested_action)}${i.callback_time?` · <b>${i.callback_time}</b>`:''}</div></div>
+    <div><div class="row"><select onchange="qUpdate('${i.call_id}',{assignee:this.value,status:this.value?'assigned':'pending'})">${agentOpts(i.assignee)}</select></div><div class="row" style="margin-top:6px"><select onchange="qUpdate('${i.call_id}',{status:this.value})">${['pending','assigned','in_progress','closed'].map(s=>`<option ${s===i.status?'selected':''}>${s}</option>`).join('')}</select></div><div class="row" style="margin-top:6px"><input placeholder="agent note" value="${esc(i.agent_note)}" onchange="qUpdate('${i.call_id}',{note:this.value})" style="width:100%"></div></div>
+  </div>`).join('');
+}
+async function qUpdate(id,body){await post('/api/queue/'+id,body);toast('Saved');refreshCounts();if(body.status)loadQueue()}
+
+// ---------- inbox
+async function loadInbox(){const rows=await api('/api/inbox?limit=200');const cust=id=>(CFG.customers.find(c=>c.customer_id===id)||{}).name||id||'—';
+  const detail=p=>{if(p.outcome==='promise_to_pay')return `${inr(p.ptp_amount_inr)} by <b>${p.ptp_date||'—'}</b>`;if(p.outcome==='already_paid')return `${p.paid_mode||'—'} on ${p.paid_date||'—'}`;if(p.outcome==='callback_request')return `${REASON_LABEL[p.callback_reason]||p.callback_reason||''}${p.callback_time?` · <b>${p.callback_time.replace('T',' ').slice(0,16)}</b>`:''}`;if(p.outcome==='dispute_or_transfer')return `${REASON_LABEL[p.transfer_reason]||p.transfer_reason||''}`;return p.ping?'webhook test ping':''};
+  $('#tblInbox').innerHTML='<tr><th>Received</th><th>Customer</th><th>Outcome</th><th>Details</th><th>Note from the bot</th><th>OTP</th><th>Length</th><th>Ver.</th><th></th></tr>'+rows.map((r,i)=>{const p=r.payload||{};return `<tr><td class="muted" style="white-space:nowrap">${r.received_at.slice(5,16).replace('T',' ')}</td><td><b>${esc(cust(p.customer_id))}</b><br><span class="muted mono">${p.customer_id||''}</span></td><td><span class="pill ${OUT_CLASS[p.outcome]||'gray'}">${OUT_LABEL[p.outcome]||p.outcome||'—'}</span></td><td>${detail(p)}</td><td class="muted" style="max-width:340px">${esc(p.customer_note||'')}</td><td>${p.otp_verified?'<span class="pill ok">verified</span>':'<span class="pill gray">no</span>'}</td><td class="muted">${p.duration_sec!=null?fmtDur(p.duration_sec):''}</td><td>${p.prompt_version||''}</td><td style="white-space:nowrap"><span class="linkish" onclick="showPayload(${i})">payload</span>${p.call_id?` · <span class="linkish" onclick="showCall('${p.call_id}')">call</span>`:''}</td></tr>`}).join('');window._inbox=rows}
+function showPayload(i){const p=window._inbox[i].payload;openModal(`Webhook payload · ${(p.call_id||'').slice(0,8)}`,`<pre>${esc(JSON.stringify(p,null,2))}</pre>`)}
+
+init();
+</script>
+</body>
+</html>

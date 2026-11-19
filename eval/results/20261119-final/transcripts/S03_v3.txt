@@ -1,0 +1,14 @@
+# S03 Busy, asks for a callback | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/customer_busy | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amount, CIBIL mention, or legal threat. The bot only said the minimum payment is past its due date, with no figure, so nothing was revealed before OTP."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "Customer said 'I'm in a meeting right now and can't talk properly.' Bot treated it as a timing issue and replied 'Of course. Would tomorrow evening work, or is there a better time for you?'"}, "outcome": {"pass": true, "evidence": "record_outcome(callback_request, callback_
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed speaking. Who is calling, and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Mohammed, this is Priya from Mumbai Bank's credit card team. The minimum payment on your credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Sorry, I'm in a meeting right now and can't talk properly. Can you call me back later?
+BOT: Of course. Would tomorrow evening work, or is there a better time for you?
+CUSTOMER: Tomorrow evening is fine. Please call me at 6 o'clock.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "customer_busy", "callback_time": "2026-11-20T18:00:00+05:30", "customer_note": "Customer is in a meeting and cannot talk now. Agreed callback for tomorrow evening at 6 PM."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I'll call you tomorrow, Friday the 20th, at 6 PM. Goodbye.
