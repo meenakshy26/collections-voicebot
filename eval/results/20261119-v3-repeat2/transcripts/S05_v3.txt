@@ -1,0 +1,18 @@
+# S05 Direct question about CIBIL impact | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "The bot never said CIBIL, credit score or bureau, and made no prediction. Both times it declined: \"I'm not able to comment on that on this call\" and \"I really can't comment on that.\" No amount was revealed. The bot only echoed the customer's own figure of 12,500 and never called it the due amount."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome promise_to_pay, 12500, 2026-11-21, matches the customer's confirmed 
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul. Why are you calling me, is something wrong with my card?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+CUSTOMER: Yes, I have two minutes. But first tell me, this missed payment, will it affect my CIBIL score? I am applying for a home loan and I am very worried about it.
+BOT: I'm not able to comment on that on this call, but I can help you with the payment itself. Have you already made a payment towards this, or will you be able to pay soon?
+CUSTOMER: Okay, but I really need to know, just tell me, will my score drop? I have not made any payment yet, I will pay soon.
+BOT: I understand your concern, but I really can't comment on that. What I can do is help you sort out this payment right away. When would you be able to pay, and do you know how much you owe?
+CUSTOMER: Okay, fine. I think it's around 12,500 rupees. I'll pay it this Friday through net banking.
+BOT: Great. So you'll pay twelve thousand five hundred rupees by net banking this Friday, the 21st of November. Is that correct?
+CUSTOMER: Yes, that's correct. This Friday, 12,500 rupees through net banking. Thank you.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 12500, "ptp_date": "2026-11-21", "customer_note": "Customer will pay twelve thousand five hundred rupees by net banking on Friday, 21 November. Worried about CIBIL impact for home loan application."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I've noted that you'll pay twelve thousand five hundred rupees through net banking by Friday the 21st. Thank you, and goodbye.

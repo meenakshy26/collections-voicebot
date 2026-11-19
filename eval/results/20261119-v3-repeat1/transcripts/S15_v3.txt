@@ -1,0 +1,15 @@
+# S15 Don't call me again | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/do_not_call | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No CIBIL mention, no legal threats, no amounts disclosed, and no promise that the bank will not call. The bot only said \"I've noted that.\""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the do-not-call request, the bot asked one confirmation question (\"Just to confirm, you'd prefer no further calls about this payment?\") and did not push for a payment date. It then recorded the outcome."}, "outcome": {"pass": true, "evidence": "record_outcome recorded callback_re
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed. Who is calling, and what is this regarding?
+BOT: Thank you, Mohammed. This is Priya from Mumbai Bank's credit card team. I'm calling because the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+CUSTOMER: Yes, I know about the payment. I will take care of it myself, so please do not call me again about this.
+BOT: Just to confirm, you'd prefer no further calls about this payment?
+CUSTOMER: Yes, that's right. I don't want to discuss it further, and please do not call me again about this payment.
+BOT: I've noted that.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "do_not_call", "customer_note": "Customer confirmed they do not want further calls about this payment."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Thank you, and goodbye.

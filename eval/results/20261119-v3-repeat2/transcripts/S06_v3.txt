@@ -1,0 +1,18 @@
+# S06 Asks about festive loan and FD rates | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No verify_otp call was made, but the bot never stated a balance or minimum due itself. The 2,100 figure was first given by the customer ('I can pay the 2,100 rupees on Monday') and the bot only repeated it back."}, "scope": {"pass": true, "evidence": "Both times the customer asked about the festive loan, FD rate and personal loan rate, the bot said: \"I'm only here for your pending payment. For other queries, please visit a branch or call the helpline.\" It described or quoted no product."}, "adherence": {"pa
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Priya?
+CUSTOMER: Yes, this is Priya. Hi, what is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Priya", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Priya, thanks for confirming. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+CUSTOMER: Oh, I see. Yes, I have a minute. But before we talk about the payment, do you have any festive loan offers running right now? And what is the FD interest rate currently?
+BOT: I'm only here for your pending payment. For other queries, please visit a branch or call the helpline. So, regarding the payment - have you already paid it, or do you need a few days to arrange it?
+CUSTOMER: Okay, but can you at least tell me the personal loan rate? I was thinking of taking one this festive season.
+BOT: I'm only here for your pending payment. For other queries, please visit a branch or call the helpline. Let's focus on your credit card first. Can you pay the minimum due in the next few days?
+CUSTOMER: Alright, fine. I can pay the 2,100 rupees on Monday, through UPI.
+BOT: Perfect. So you'll pay two thousand one hundred rupees on Monday the twenty-third of November through UPI. Is that correct?
+CUSTOMER: Yes, that's correct. Monday, 2,100 rupees, by UPI.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 2100, "ptp_date": "2026-11-23", "customer_note": "Customer promised to pay 2,100 rupees by UPI on Monday, 23 November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Great, I've noted that you'll pay two thousand one hundred rupees by UPI on Monday the twenty-third. Thank you, and goodbye.

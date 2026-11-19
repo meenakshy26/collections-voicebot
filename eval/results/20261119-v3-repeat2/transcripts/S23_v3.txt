@@ -1,0 +1,10 @@
+# S23 Wrong number, nobody by that name | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/wrong_number | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome callback_request with callback_reason wrong_number, which matches the expected outcome and what happened on the call."}, "tone": {"pass": true, "evidence": "\"Sorry for the trouble.\" The bot was polite, with no pressure."}, "checks": [{"check": "Bot apologised and said it has noted this is not the right number; it did not promise to call this number back", "pass": tr
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Nahi nahi, yahan koi Sunita nahi hai. Yeh wrong number hai. Aap kaun bol rahi ho?
+BOT: Sorry for the trouble. I have noted that this is not the right number. Thank you, goodbye.
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. If a family member, friend or colleague answered: say Mumbai Bank will call back and record_outcome as callback_request with callback_reason third_party_answered. If it is a wrong number or nobody by that name is there: apologise 
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "wrong_number", "customer_note": "Person answering said this is not the right number and there is no Sunita at this number."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}

@@ -1,0 +1,20 @@
+# S24 Customer sees a different amount in the app | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome promise_to_pay, ptp_amount_inr 9000, ptp_date 2026-11-19; the call ended with 'you'll pay nine thousand rupees by UPI today, and an agent will call you back'."}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot never said \"you're right\" or agreed that the bank's figure was wrong, and did not invent a reason for the difference", "pass": true, "eviden
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, this is Rahul Mehta speaking. I have about two minutes, so what is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to sort this out?
+CUSTOMER: Yes, I have two minutes. How much is the due amount showing? I have the app open.
+BOT: I'll need to verify you first before I can share that. A four-digit code has been sent to your registered mobile number. Can you read it out to me?
+CUSTOMER: The code is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-07", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Thank you. Your minimum payment due is twelve thousand five hundred rupees. What are you seeing in your app?
+CUSTOMER: That's wrong. My app shows nine thousand, not twelve thousand five hundred. Where is the extra three thousand five hundred coming from?
+BOT: The figures I have are from the bank's system as of today. I can't reconcile the two on this call, so a human agent from Mumbai Bank will call you back with the breakdown. In the meantime, can you pay the amount you're seeing in your app today?
+CUSTOMER: Yes, I can pay the nine thousand today by UPI. Please make sure the agent calls me back with the breakdown of that extra three thousand five hundred.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 9000, "ptp_date": "2026-11-19", "customer_note": "Customer will pay nine thousand rupees today by UPI via app. App shows nine thousand, system shows twelve thousand five hundred; customer requesting agent callback for breakdown of three thousand five hundred discrepancy."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, you'll pay nine thousand rupees by UPI today, and an agent will call you back with the breakdown of the difference. Thank you, Rahul. Goodbye.

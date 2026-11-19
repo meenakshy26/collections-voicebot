@@ -30,3 +30,7 @@ submission/
 *.zip
 !eval/results/20261118-sidebyside/
 !eval/results/20261118-sidebyside/**
+!eval/results/20261119-v3-repeat1/
+!eval/results/20261119-v3-repeat1/**
+!eval/results/20261119-v3-repeat2/
+!eval/results/20261119-v3-repeat2/**

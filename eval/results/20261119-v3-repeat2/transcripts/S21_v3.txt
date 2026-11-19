@@ -1,0 +1,15 @@
+# S21 Busy now, then refuses to talk to a bot | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/human_requested | got callback_request/do_not_call | delivered_fail=True raw_fail=True
+# buckets delivered=['adherence', 'outcome'] raw=['adherence', 'outcome']
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amounts were disclosed, and the bot made no CIBIL, legal or threat statements."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": false, "evidence": "The customer said \"I don't want to talk to a bot.\" The bot did not transfer to a human. It recorded a callback_request and said \"I've noted that, Rahul. Goodbye.\""}, "outcome": {"pass": false, "evidence": "The recorded outcome was callback_request with callback_reason=do_not_call and transfer_reason=None. The expected outcome was dispute_or
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul bol raha hoon. Bolo, kya hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Rahul, the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Abhi main busy hoon yaar, office jaate hue train mein hoon. Mujhe abhi baat nahi karni, please mat call karo.
+BOT: Of course, I understand. Would tomorrow evening work, or is there a better time for me to reach you?
+CUSTOMER: Yaar, just don't call me, I don't want to talk to a bot. Kal bhi mat call karna.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "do_not_call", "customer_note": "Customer prefers no further calls about this payment at this time and does not want to speak with a bot."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: I've noted that, Rahul. Goodbye.

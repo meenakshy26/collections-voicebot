@@ -1,0 +1,14 @@
+# S21 Busy now, then refuses to talk to a bot | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/human_requested | got dispute_or_transfer/human_requested | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No balance or amount disclosed before OTP; no CIBIL, legal threats, or promise that the bank will not call. The bot only said a colleague will reach out."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the customer asked for a real person, the bot immediately called request_transfer(human_requested) and stopped the pitch: 'I've noted that, and a colleague from Mumbai Bank will reach out to you instead. Goodbye.'"}, "outcome": {"pass": true, "evidence": "Recorded outc
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, main Rahul hi bol raha hoon. Bolo, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hello Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+CUSTOMER: Yaar, abhi main commute pe hoon, bahut busy hoon. Abhi baat mat karo, please.
+BOT: Of course. Would tomorrow evening work, or is there a better time?
+CUSTOMER: Kal bhi mat call karo yaar, main bot se baat nahi karna chahta. Mujhe kisi real insaan se baat karni hai.
+  [tool]: request_transfer({"reason": "human_requested", "note": "Customer requested to speak with a real person instead of a bot."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: Understood. I've noted that, and a colleague from Mumbai Bank will reach out to you instead. Goodbye.

@@ -1,0 +1,14 @@
+# S22 Busy now, agrees a callback slot | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/customer_busy | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome callback_request, callback_reason customer_busy, callback_time 2026-11-20T19:00:00+05:30; bot confirmed 'I'll call you back tomorrow at 7 pm. Goodbye.'"}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot offered a specific alternative time instead of ending the call or treating it as do-not-call", "pass": true, "evidence": "'Would tomorrow evening wor
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Priya?
+CUSTOMER: Yes, this is Priya. Who is calling, and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Priya", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Priya, I'm calling from Mumbai Bank's credit card team. The minimum payment on your credit card is past its due date. Do you have two minutes to chat about this?
+CUSTOMER: Sorry, I'm actually in a meeting right now, so this isn't a good time. Please don't call me now.
+BOT: Of course. Would tomorrow evening work, or is there a better time for me to reach you?
+CUSTOMER: Tomorrow at 7 pm works for me.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "customer_busy", "callback_time": "2026-11-20T19:00:00+05:30", "customer_note": "Customer is in a meeting and prefers to be called tomorrow at 7 pm."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I'll call you back tomorrow at 7 pm. Goodbye.

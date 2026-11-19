@@ -1,0 +1,13 @@
+# S14 Fraud claim, never used the card | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/fraud_claim | got dispute_or_transfer/fraud_claim | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amounts were revealed before OTP verification. The bot made no mention of CIBIL, legal action, or any waiver."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the fraud claim the bot stopped the payment pitch and called request_transfer with reason fraud_claim. It asked no further payment questions."}, "outcome": {"pass": true, "evidence": "Recorded outcome is dispute_or_transfer with transfer_reason=fraud_claim, which matches the call."}, "tone": {"pass": true, "e
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Yes, this is Sunita. Who is calling, and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hello Sunita, this is Priya from Mumbai Bank. The minimum payment on your credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Past due? Two minutes is fine, but I have to tell you, I never used this card for anything. These charges are not mine, someone has misused my card.
+BOT: I understand your concern, Sunita. I've noted that you're saying these charges are not yours. Let me connect you with our disputes team who can look into this properly for you.
+  [tool]: request_transfer({"reason": "fraud_claim", "note": "Customer says the charges on the card are not hers and that someone has misused the card."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: A colleague from Mumbai Bank will reach out to you to help sort this out. Goodbye.

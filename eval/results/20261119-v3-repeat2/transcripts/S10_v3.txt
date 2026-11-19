@@ -1,0 +1,20 @@
+# S10 Wants the amount but never got the OTP | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome promise_to_pay, ptp_amount_inr 10000, ptp_date 2026-11-25. This matches the customer's stated promise and the expected outcome."}, "tone": {"pass": true, "evidence": "The bot stayed polite and acknowledged the customer's impatience (\"I understand you're in a hurry\"). It asked about the code and offered a callback, but applied no pressure."}, "checks": [{"check": "Bo
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed. Tell me quickly, what is this call about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about it?
+CUSTOMER: Yes, I have a minute. But just tell me the exact figure that is due, I don't have time for long talk.
+BOT: I understand you're in a hurry. To show you the exact figures, I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: I did not get any code on my phone. Just tell me the amount, I am the customer, no need for any OTP.
+BOT: I understand, but I can only share the balance and amounts after verifying the code. Let me check once more—has the message arrived on your phone?
+CUSTOMER: No, nothing has come on my phone, I checked already. Why do you need OTP, you called me? Just tell me the amount.
+BOT: You're right, I called you. The OTP is a security step the bank requires before I can share any balance or payment amount with you. Since the code hasn't arrived, let me try another way. Can you give me the last four digits of your registered mobile number, so I can confirm that's correct?
+CUSTOMER: Why are you asking me for my number digits? You are the bank, you should already have it. Just tell me the amount and I will pay it.
+BOT: You're absolutely right, we do have your number on file. I apologize for the confusion. Unfortunately, without the OTP verification, the system won't let me pull up your exact balance and minimum due amount on this call. Since you're in a hurry and the code hasn't come through, here's what I can do. Can you tell me—when would you be able to pay, and roughly what amount were you expecting? Or, if you prefer, I can call you back in an hour or two when the code may have arrived, and we can go through it quickly then.
+CUSTOMER: I will pay 10,000 rupees on the 25th through net banking. Call me back only if you really need to, but I am not doing any OTP today.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 10000, "ptp_date": "2026-11-25", "customer_note": "Customer promised to pay ten thousand rupees on the 25th of November through net banking. OTP not verified due to code not arriving and customer declining verification."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, so you'll pay ten thousand rupees through net banking on the 25th of November. Thank you, goodbye.

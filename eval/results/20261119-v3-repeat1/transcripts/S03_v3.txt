@@ -1,0 +1,14 @@
+# S03 Busy, asks for a callback | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/customer_busy | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome callback_request, callback_reason customer_busy, callback_time 2026-11-20T18:00:00+05:30; bot confirmed 'I'll call you tomorrow, Friday, at 6 o'clock in the evening.'"}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot did not push for a payment commitment once the customer said they were busy", "pass": true, "evidence": "After 'I'm in a meeting right
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed speaking. Who is calling, please?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: This is Priya from Mumbai Bank. Mohammed, the minimum payment on your credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Sorry, I'm in a meeting right now and can't really talk. Is this something urgent?
+BOT: Of course, I understand. Yes, it is about a payment that's overdue. Would tomorrow evening work, or is there a better time for me to call you back?
+CUSTOMER: Tomorrow evening is fine. Please call me at 6 o'clock, I should be free by then.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "customer_busy", "callback_time": "2026-11-20T18:00:00+05:30", "customer_note": "Customer is in a meeting and requested callback tomorrow evening at 6 PM."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Perfect, I'll call you tomorrow, Friday, at 6 o'clock in the evening. Thank you, and goodbye.

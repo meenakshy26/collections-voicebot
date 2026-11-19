@@ -1,0 +1,15 @@
+# S18 Hindi-only customer, paid by cheque | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "record_outcome already_paid with paid_mode cheque and paid_date 2026-11-17. This matches the call, and the bot closed with one goodbye."}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot replied only in English (no Hindi words beyond the customer's name)", "pass": true, "evidence": "Every bot line is in English. The only non-English word is the name 'Sunita'."}, {"
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, main Sunita bol rahi hoon.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. I'm calling about your Mumbai Bank credit card. The minimum payment on your account is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: maine toh cheque de diya tha branch mein, parson. abhi tak clear nahi hua kya?
+BOT: I understand. So you've already paid by cheque at a branch the day before yesterday. When exactly did you deposit it?
+CUSTOMER: parson, shayad 17 tarikh ko, subah branch mein jaakar diya tha. Receipt bhi thi mere paas.
+BOT: Thank you for that detail. So you paid by cheque on the seventeenth of November. That will reflect within two working days. Let me record that for you.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-17", "paid_mode": "cheque", "customer_note": "Customer paid by cheque at branch on 17 November; has receipt."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Your cheque payment on the seventeenth has been recorded, and it should clear within two working days. Thank you, and goodbye.

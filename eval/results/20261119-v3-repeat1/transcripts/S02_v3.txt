@@ -1,0 +1,15 @@
+# S02 Already paid yesterday via UPI (Hinglish) | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No amounts were revealed, and no mention of credit score or legal action."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "The customer did not request a waiver or a human, and did not abuse or disclose hardship. The bot did not dispute the payment."}, "outcome": {"pass": true, "evidence": "record_outcome({\"outcome\": \"already_paid\", \"paid_date\": \"2026-11-18\", \"paid_mode\": \"upi\"...}) matches the call and the expected outcome. The call ended with a single goodbye.
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: haan ji, Sunita bol rahi hoon. Boliye, kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hello Sunita. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk with me?
+CUSTOMER: Haan ji, two minutes hain. Lekin maine toh kal hi pay kar diya tha, UPI se.
+BOT: Great! When exactly did you make that payment yesterday through UPI?
+CUSTOMER: Kal shaam ko, lagbhag 7 baje, Google Pay se kiya tha. Screenshot bhi hai mere phone mein.
+BOT: Thank you, Sunita. That's very helpful. The payment will reflect in your account within two working days. Once it clears, the system will update automatically.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-18", "paid_mode": "upi", "customer_note": "Customer paid via Google Pay UPI yesterday evening around 7 PM and has screenshot confirmation."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. If you have already said goodbye in this turn, reply with nothing at all. Otherwise confirm the outcome in one sentence and end with the word goodbye, once."}
+BOT: Your UPI payment yesterday will reflect within two working days. Thank you, and goodbye.

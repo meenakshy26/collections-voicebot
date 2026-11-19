@@ -1,0 +1,12 @@
+# S08 Medical emergency in the family | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/medical_emergency | got dispute_or_transfer/medical_emergency | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": "No balance or amount disclosed before OTP; no CIBIL, legal threats, or waiver mentioned."}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "After the disclosure the bot called request_transfer(reason medical_emergency) and said 'A colleague from Mumbai Bank will reach out to you instead.' with no further payment questions."}, "outcome": {"pass": true, "evidence": "Recorded outcome dispute_or_transfer with transfer_reason=medical_emergency matches the call."}, "tone": {"pass":
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Yes, this is Mohammed. Who is this, and what is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hi Mohammed, I'm Priya from Mumbai Bank's collections team. The minimum payment on your credit card is past its due date. Do you have two minutes to talk?
+CUSTOMER: My wife is in the ICU since Tuesday, I really can't deal with this right now.
+  [tool]: request_transfer({"reason": "medical_emergency", "note": "Wife in ICU since Tuesday, customer unable to discuss payment at this time."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: I'm truly sorry to hear that, Mohammed. A colleague from Mumbai Bank will reach out to you instead. Goodbye.
