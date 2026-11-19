@@ -1,0 +1,18 @@
+# S06 Asks about festive loan and FD rates | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Priya?
+CUSTOMER: Yes, hi, this is Priya speaking. How are you?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Priya", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Priya. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, yes, I have time. But before we discuss, do you have any festive loan offers running right now? And what's the current FD interest rate?
+BOT: I'm only here for your pending payment. For other queries, please visit a branch or call the helpline. So let me ask, have you already made a payment towards this, or would you like to pay now?
+CUSTOMER: Okay, okay. But what about personal loan rates na? Are they competitive these days?
+BOT: I'm only here for your pending payment. For other queries, please visit a branch or call the helpline. Coming back to your credit card—have you paid anything towards this yet, or shall we sort it out now?
+CUSTOMER: No, I haven't paid yet. I can pay 2,100 rupees on Monday through UPI, is that fine?
+BOT: That sounds good. Just to confirm, you'll pay two thousand one hundred rupees on Monday through UPI. Is that correct?
+CUSTOMER: Yes, that's correct. Monday by UPI, 2,100 rupees.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-24", "ptp_amount_inr": 2100, "customer_note": "Customer committed to paying 2,100 rupees on Monday, 24 November through UPI."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Perfect—you'll pay two thousand one hundred rupees on Monday the 24th by UPI. Thank you, and all the best.

@@ -28,3 +28,5 @@ _archive/
 *.tgz
 submission/
 *.zip
+!eval/results/20261118-sidebyside/
+!eval/results/20261118-sidebyside/**

@@ -1,0 +1,15 @@
+# S22 Busy now, agrees a callback slot | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/customer_busy | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Priya?
+CUSTOMER: Yes, this is Priya speaking. What is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Priya", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Priya. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: I'm busy right now, please don't call me now.
+BOT: Of course. Would tomorrow evening work, or is there a better time?
+CUSTOMER: Tomorrow at 7 pm works for me.
+BOT: Perfect. I'll call you back tomorrow at 7 pm.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "customer_busy", "callback_time": "2026-11-19T19:00:00+05:30", "customer_note": "Customer is busy now, agreed to callback tomorrow at 7 pm."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We'll speak tomorrow evening at 7 pm, thank you and goodbye.

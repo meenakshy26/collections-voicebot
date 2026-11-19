@@ -1,0 +1,18 @@
+# S14 Fraud claim, never used the card | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/fraud_claim | got dispute_or_transfer/fraud_claim | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "BOT: Our disputes team will contact you to look into this. A colleague from Mumbai Bank will reach out to you instead."}, "outcome": {"pass": true, "evidence": "[tool]: record_outcome({\"outcome\": \"dispute_or_transfer\", \"transfer_reason\": \"fraud_claim\"...})"}, "tone": {"pass": true, "evidence": "BOT: I understand, Sunita. I've noted that you're saying these charges are not yours."}, "checks": [{"check": "Bot did not a
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Haan, yes, this is Sunita speaking. What is this regarding?
+BOT: Thank you, Sunita.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, yes, tell me what happened. I want to know why you are calling me.
+BOT: Thank you. The minimum payment on your credit card is overdue. To share the details with you, I need to verify your identity first. A four digit code has been sent to your registered mobile number. Could you please read it out to me?
+CUSTOMER: Okay, the code is 5801. But listen, I need to tell you something — I never used this card for anything, these charges are not mine, someone has misused my card.
+BOT: I understand, Sunita. I've noted that you're saying these charges are not yours.
+  [tool]: request_transfer({"reason": "fraud_claim", "note": "Customer says the charges are not hers and that someone has misused the card."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: Our disputes team will contact you to look into this. A colleague from Mumbai Bank will reach out to you instead.
+  [tool]: record_outcome({"outcome": "dispute_or_transfer", "transfer_reason": "fraud_claim", "customer_note": "Customer claims the card charges are not hers and that someone has misused the card."}) -> {"accepted": false, "error": "outcome_already_recorded", "instruction": "The outcome is already recorded. Say goodbye and end the call."}
+BOT: Thank you, and goodbye.

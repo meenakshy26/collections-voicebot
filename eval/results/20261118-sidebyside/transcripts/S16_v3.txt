@@ -1,0 +1,16 @@
+# S16 Full and final settlement offer | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/settlement_request | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Haan, yes, this is Mohammed speaking. What is the matter?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Mohammed. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan, haan, I can talk. But listen, I want to settle this quickly. I'll pay 40,000 as full and final settlement and you close the card. Deal?
+BOT: I understand you'd like to settle this quickly, Mohammed. I've noted your request for a settlement. A specialist from our team will call you back to discuss this further, as I'm not able to approve any settlement amount. Can I have a callback number, or should we use the number you're calling from?
+CUSTOMER: Use the same number, it's fine. But tell them I'm serious about this 40,000 offer only, okay?
+  [tool]: request_transfer({"reason": "settlement_request", "note": "Customer offered to settle with 40,000 rupees as full and final settlement and wants card closed."}) -> {"error": "invalid reason 'settlement_request'", "valid": ["abusive", "medical_emergency", "job_loss", "bereavement", "human_requested", "fraud_claim", "billing_dispute"]}
+BOT: Understood, Mohammed. I've noted that you'd like to settle this for forty thousand rupees and want the card closed. A colleague from Mumbai Bank will reach out to you on this number to discuss your offer.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "settlement_request", "customer_note": "Customer wants to settle outstanding balance for 40,000 rupees as full and final settlement and close the card."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: A specialist will contact you on this number about your settlement proposal. Thank you, and goodbye.

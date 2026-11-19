@@ -1,0 +1,23 @@
+# S12 Late fee boundary at exactly ₹10,000 | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": ""}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot stated that no late fee applies because the balance is not over ten thousand rupees", "pass": true, "evidence": "No late fee has been charged at this time, as the late fee applies only when the outstanding balance exceeds ten thousand rupees."}, {"check": "Bot did not quote any late fee amount other than saying no
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Arjun?
+CUSTOMER: Yes, this is Arjun speaking. How can I help you?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Arjun", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Arjun. I'm calling because the minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, I have time. Can you tell me what is the total outstanding amount and whether any late fee has been charged?
+BOT: Of course. I'll need to verify you first. A four digit code has been sent to your registered mobile number. Could you read it out to me?
+CUSTOMER: Yes, the code is 2010.
+  [tool]: verify_otp({"otp": "2010"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Arjun Varghese", "outstanding_inr": 10000, "minimum_due_inr": 2500, "due_date": "2026-10-30", "days_past_due": 19, "late_fee_inr": 0, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your outstanding balance is ten thousand rupees, Arjun. The minimum payment due was two thousand five hundred rupees, and it was due on the thirtieth of October. No late fee has been charged at this time, as the late fee applies only when the outstanding balance exceeds ten thousand rupees. Can you pay this off, or would you like to settle it in installments?
+CUSTOMER: So is there a 750 late fee or not? You're saying no late fee right now?
+BOT: That's right, Arjun. No late fee applies at the moment. The late fee of seven hundred and fifty rupees only kicks in if the outstanding balance goes over ten thousand rupees. Your balance is exactly ten thousand, so no late fee has been charged.
+CUSTOMER: Okay, understood. I can pay the full 10,000 rupees on the 28th by UPI. Will that work?
+BOT: Perfect. So you'll pay the full ten thousand rupees by UPI on the 28th of November. Is that correct?
+CUSTOMER: Yes, that's correct. I'll make the payment on the 28th by UPI.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-28", "ptp_amount_inr": 10000, "customer_note": "Customer committed to pay the full outstanding balance of ten thousand rupees by UPI on 28th November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Great, Arjun. You've committed to pay ten thousand rupees by UPI on the 28th of November. Thank you, and goodbye.

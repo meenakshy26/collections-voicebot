@@ -1,0 +1,23 @@
+# S01 Happy path promise to pay | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factical": {"pass": true, "evidence": "Bot quoted outstanding ₹48,200, minimum due ₹12,500, late fee ₹750, and interest 3.5% (implied by context, no wrong figures stated). Late fee correctly applied as balance > ₹10,000."}, "compliance": {"pass": true, "evidence": "OTP verified (tool returned verified: true) before any amounts were disclosed. No CIBIL, legal threats, or unauthorized waivers mentioned."}, "scope": {"pass": true, "evidence": "Conversation remained strictly within the scope of the pending payment. No other products pitched."}, "adherence": {"pass": true, "evidence": "Bot follow
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, yes, this is Rahul speaking. What is this regarding?
+BOT: Thank you, Rahul.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan, haan, I can talk. Sorry, I actually forgot about this — how much is due?
+BOT: I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Okay, the code is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-06", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your outstanding balance is forty eight thousand two hundred rupees. The minimum payment due was twelve thousand five hundred rupees, and that was due on the sixth of November. A late fee of seven hundred and fifty rupees also applies. Can you pay this by a specific date?
+CUSTOMER: Haan, I understand. My salary comes on the 20th, so I can pay the full amount on the 21st through UPI. Is that okay?
+BOT: Perfect. So you'll pay the full amount of forty eight thousand two hundred rupees on the twenty first of November through UPI. Is that correct?
+CUSTOMER: Haan, that's correct. I'll pay on the 21st by UPI.
+BOT: Thank you, Rahul. I've noted that you'll pay forty eight thousand two hundred rupees on the twenty first of November through UPI.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_amount_inr": 48200, "ptp_date": "2026-11-21", "customer_note": "Customer committed to pay full outstanding balance of 48200 rupees on 21 November via UPI after salary credit on 20 November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Thank you so much, and we look forward to your payment on the twenty first. Goodbye!

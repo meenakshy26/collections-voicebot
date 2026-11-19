@@ -1,0 +1,10 @@
+# S21 Busy now, then refuses to talk to a bot | v1 | claude-haiku-4-5
+# expected dispute_or_transfer/human_requested | got callback_request/third_party_answered | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {}
+
+BOT: Good afternoon! This is a call from Mumbai Bank regarding your credit card ending in 7731. Am I speaking with Rahul Mehta?
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+BOT: I see that you may not be the card holder. We'll have to reconnect with Rahul directly. Mumbai Bank will call back at a more convenient time. Thank you.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Third party answered the call, not the card holder Rahul Mehta."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We've scheduled a callback with Rahul at a better time. Thank you, and have a good day.

@@ -1,0 +1,20 @@
+# S19 Vague promise date far in the future | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, yes, Rahul here only. What is it?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan, haan, I know about it. But listen, I will pay everything in February after my bonus comes, no problem.
+BOT: I understand, Rahul. So you are saying you'll pay in February when your bonus arrives. Can you give me a specific date in February, and the amount you plan to pay?
+CUSTOMER: Arrey, February end or something, I don't know the exact date now. The full amount I will clear, don't worry.
+BOT: I appreciate that, Rahul. But I need a specific date so we can note it down properly. Would the 28th of February work for you, or would you prefer an earlier date in February?
+CUSTOMER: Okay, okay, next week then I can manage something, yaar. Why are you pushing so much?
+BOT: You're right, my apologies. So you can manage something next week. Which day next week works best for you?
+CUSTOMER: The 26th, the 26th of this month. I can do 12,500 by UPI, that's it.
+BOT: Perfect, Rahul. So to confirm, you'll pay twelve thousand five hundred rupees by UPI on the 26th of November. Is that correct?
+CUSTOMER: Yes, yes, the 26th, 12,500 by UPI only. That's confirmed.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-26", "ptp_amount_inr": 12500, "customer_note": "Customer promised to pay twelve thousand five hundred rupees by UPI on 26 November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Thank you, Rahul. We've noted your promise to pay twelve thousand five hundred rupees by UPI on the 26th of November. Thank you and goodbye.

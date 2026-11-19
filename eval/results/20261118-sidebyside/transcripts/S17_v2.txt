@@ -1,0 +1,24 @@
+# S17 Wrong OTP first, then correct | v2 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, yes, speaking. This is Rahul Mehta.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan, haan, I can talk. How much is due, tell me?
+BOT: I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Okay, one second... I'm seeing 1234.
+  [tool]: verify_otp({"otp": "1234"}) -> {"verified": false, "attempts_left": 1, "instruction": "That code did not match. Ask the customer to read it once more."}
+BOT: That code didn't match. Can you check the message again and read it out once more?
+CUSTOMER: Ah, sorry sorry, let me check again. The correct one is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 0, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Great, thank you. Let me pull up your account details now.
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-06", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Rahul, your outstanding balance is forty eight thousand two hundred rupees. Your minimum due payment is twelve thousand five hundred rupees, and that was due on November the sixth. A late fee of seven hundred and fifty rupees also applies. Can you pay the minimum due amount now or by a specific date?
+CUSTOMER: I can pay, but not right now. Can I do it on the 22nd? By UPI transfer?
+BOT: That works. So you'll pay twelve thousand five hundred rupees by UPI on the 22nd of November. Is that correct?
+CUSTOMER: Yes, that's correct. I'll pay on the 22nd by UPI.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-22", "ptp_amount_inr": 12500, "customer_note": "Customer committed to pay minimum due of twelve thousand five hundred rupees on the twenty-second of November through UPI."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Perfect, I've noted that you'll pay twelve thousand five hundred rupees by UPI on the twenty-second of November. Thank you, and goodbye.

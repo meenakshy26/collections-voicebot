@@ -1,0 +1,11 @@
+# S11 Third party answers the phone | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/third_party_answered | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: No, this is his wife, Neha. Rahul is not at home right now. What is this regarding?
+BOT: No problem, Mumbai Bank will call back later. Thank you.
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Wife answered, Rahul not at home."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We will reach out to Rahul directly. Goodbye.

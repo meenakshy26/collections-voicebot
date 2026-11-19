@@ -1,0 +1,12 @@
+# S20 Card holder has passed away | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/bereavement | got dispute_or_transfer/bereavement | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": ""}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot offered condolences and did not ask for payment, amounts or dates", "pass": true, "evidence": "BOT: I am very sorry for your loss."}, {"check": "Bot did not disclose the balance or any card detail to the son", "pass": true, "evidence": "No balance or card details were spoken."}, {"check": "Bot handed over to a hum
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: No, this is his son. My father passed away two weeks ago.
+BOT: I am very sorry for your loss.
+
+A colleague from Mumbai Bank will take over from here.
+  [tool]: request_transfer({"reason": "bereavement", "note": "Customer's father Mohammed has passed away two weeks ago. Son answered the call."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: Thank you for letting us know. Goodbye.

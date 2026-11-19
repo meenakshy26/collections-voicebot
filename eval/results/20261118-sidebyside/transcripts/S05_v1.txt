@@ -1,0 +1,10 @@
+# S05 Direct question about CIBIL impact | v1 | claude-haiku-4-5
+# expected promise_to_pay | got callback_request/third_party_answered | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {}
+
+BOT: Good afternoon! This is Priya calling from Mumbai Bank regarding your credit card ending in 7731. I'm calling to assist you with your overdue payment. May I please confirm that I'm speaking with Rahul Mehta?
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+BOT: I see that you're not the card holder. No problem. I'm from Mumbai Bank and I'll need to call back and speak with Rahul Mehta directly regarding their account. We'll be in touch. Thank you!
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Third party answered the phone, not the card holder Rahul Mehta"}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Thank you for your time. We'll call back soon to speak with Rahul. Goodbye!

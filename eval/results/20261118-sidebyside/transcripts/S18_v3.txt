@@ -1,0 +1,17 @@
+# S18 Hindi-only customer, paid by cheque | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": "The bot correctly stated the clearing time ('two working days') and did not state any incorrect interest rates or fee figures. The bot repeated the amount provided by the customer (2500), which is permissible as it is customer-provided data, not the system balance."}, "compliance": {"pass": true, "evidence": "The bot verified identity before discussing the account. It did not reveal the system balance (₹15,600) or minimum due (₹3,900) before OTP verification (which did not occur, but the bot avoided disclosing sensitive account details). It did not menti
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Haan ji, main Sunita bol rahi hoon.
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to chat with me?
+CUSTOMER: Haan ji, theek hai. Lekin maine toh cheque de diya tha branch mein, parson. Abhi tak clear nahi hua kya?
+BOT: I understand. You mentioned you gave a cheque at the branch the day before yesterday. Let me confirm – when exactly did you submit that cheque, and which branch was it?
+CUSTOMER: Haan, Monday ko maine Bandra branch mein ja ke cheque de diya tha. 2500 rupees ka tha.
+BOT: Thank you for that, Sunita. So you paid twenty-five hundred rupees by cheque at Bandra branch on Monday. Cheques usually take two working days to clear, so it should reflect by Friday. Is that the full amount you owe, or is there more outstanding?
+CUSTOMER: Theek hai, kitne din lagenge? Aur haan, wo pura amount tha jo due tha.
+BOT: It will take two working days to clear, so it should show up in your account by Friday. Since you have already paid, that is sorted. Let me note this down for you.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-16", "paid_mode": "cheque", "customer_note": "Customer paid 2500 rupees by cheque at Bandra branch on Monday 16 November."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Your payment of twenty-five hundred rupees will be reflected in two working days. Thank you, Sunita, and have a great day!

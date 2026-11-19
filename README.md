@@ -9,7 +9,7 @@ Browser mic ──► Pipecat pipeline ──► webhook (CRM stand-in = the con
                  └─ TTS  Sarvam Bulbul v4 flash (Indian-English)  fallback: Deepgram Aura-2
 ```
 
-**Results (final run, `eval/results/20261119-final/`):** v1 (the brief's prompt verbatim) passed 1 of 22 scenarios; v2 (rewritten prompt, no guardrails) 23 of 24; v3 (rewritten prompt + code guardrails) 24 of 24. The writeup PDF explains the three versions, the failure definition and what each step bought.
+**Results (final run, `eval/results/20261119-final/`):** v1 (the brief's prompt verbatim) passed 1 of 22 scenarios; v2 (rewritten prompt, no guardrails) 23 of 24; v3 (rewritten prompt + code guardrails) 24 of 24 on the delivered rubric (22 of 24 under the strict reading in writeup section 3: two minor adherence slips the judge filed as tone). The 18 Nov side-by-side run, all three versions judged on 22 scenarios, is in `eval/results/20261118-sidebyside/`. The writeup PDF explains the three versions, the failure definition and what each step bought.
 
 ## Layout
 

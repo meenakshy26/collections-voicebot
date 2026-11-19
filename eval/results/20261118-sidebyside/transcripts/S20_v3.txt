@@ -1,0 +1,10 @@
+# S20 Card holder has passed away | v3 | claude-haiku-4-5
+# expected dispute_or_transfer/bereavement | got dispute_or_transfer/bereavement | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: This is his son. My father passed away two weeks ago.
+BOT: I'm very sorry for your loss. A colleague from Mumbai Bank will take over from here to help you.
+  [tool]: request_transfer({"reason": "bereavement", "note": "Customer's son answered. Father passed away two weeks ago."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: Thank you for letting us know. Goodbye.

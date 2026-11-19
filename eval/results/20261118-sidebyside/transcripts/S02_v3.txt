@@ -1,0 +1,15 @@
+# S02 Already paid yesterday via UPI (Hinglish) | v3 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": ""}, "outcome": {"pass": true, "evidence": "Recorded outcome: already_paid"}, "tone": {"pass": true, "evidence": ""}, "checks": [{"check": "Bot asked for the date and the mode of payment", "pass": true, "evidence": "When did you make that payment, and which way did you pay..."}, {"check": "Bot said the payment will reflect within two working days", "pass": true, "evidence": "It will show in your account within two working day
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Haan ji, Sunita bol rahi hoon. Kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Haan, but maine kal hi pay kar diya tha na. Kya ho gaya?
+BOT: Great! When did you make that payment, and which way did you pay—through UPI, net banking, auto-debit, cheque, or branch cash?
+CUSTOMER: Kal evening ko maine Google Pay se UPI kar diya tha. Yesterday hi payment ho gaya.
+BOT: Thank you for letting me know. So you paid through UPI yesterday evening. It will show in your account within two working days. Let me note that down for you.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-17", "paid_mode": "upi", "customer_note": "Customer paid through Google Pay UPI yesterday evening."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Your UPI payment from yesterday will reflect in your account within two working days. Thank you, and have a good day!

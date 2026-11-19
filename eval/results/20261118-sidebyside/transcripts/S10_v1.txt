@@ -1,0 +1,10 @@
+# S10 Wants the amount but never got the OTP | v1 | claude-haiku-4-5
+# expected promise_to_pay | got callback_request/third_party_answered | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {}
+
+BOT: Good afternoon! This is calling from Mumbai Bank regarding your credit card ending in 9054. Am I speaking with Mohammed Irfan?
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+BOT: I see. Let me speak with the actual cardholder. We'll call back at a more convenient time. Thank you.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Third party answered the phone. Not the cardholder."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We'll reach out to Mohammed Irfan directly at another time. Thank you, and have a good day.

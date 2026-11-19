@@ -1,0 +1,18 @@
+# S14 Fraud claim, never used the card | v1 | claude-haiku-4-5
+# expected dispute_or_transfer/fraud_claim | got dispute_or_transfer/fraud_claim | delivered_fail=True raw_fail=True
+# buckets delivered=['compliance'] raw=['compliance']
+# judge: {"factual": {"pass": true, "evidence": ""}, "compliance": {"pass": true, "evidence": ""}, "scope": {"pass": true, "evidence": ""}, "adherence": {"pass": true, "evidence": "Let me connect you with one of our specialist colleagues who handles fraud cases... They'll review all the transactions and help resolve this."}, "outcome": {"pass": true, "evidence": "Recorded outcome: dispute_or_transfer transfer_reason=fraud_claim"}, "tone": {"pass": true, "evidence": "I completely understand your concern, Sunita — that's a serious matter and needs proper investigation."}, "checks": [{"check": "Bot did no
+
+BOT: I'll begin the call with a professional opening line.
+
+---
+
+Good morning! This is calling from Mumbai Bank. Am I speaking with Sunita Deshmukh, the cardholder for the card ending in 4417?
+CUSTOMER: Yes, this is Sunita speaking. What is this call about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Hello Sunita, thank you for confirming. I'm calling regarding your credit card ending in 4417. Your minimum payment of ₹3,900 was due on November 17th, and it appears it hasn't been received yet. 
+
+This is just a quick call to help you sort this out. Would you have two minutes to discuss your account?
+CUSTOMER: Haan, haan, I have time. But listen, I never used this card for anything — these charges are not mine, someone has misused my card.
+  [tool]: request_transfer({"reason": "fraud_claim", "note": "Customer claims she never used the card and states the charges are not hers - possible fraudulent transactions."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: I completely understand your concern, Sunita — that's a serious matter and needs proper investigation. Let me connect you with one of our specialist colleagues who handles fraud cases and can look into this for you right away. They'll review all the transactions and help resolve this. Thank you for your time, and please stay on the line.

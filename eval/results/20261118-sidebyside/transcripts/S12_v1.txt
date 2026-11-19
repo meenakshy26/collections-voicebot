@@ -1,0 +1,10 @@
+# S12 Late fee boundary at exactly ₹10,000 | v1 | claude-haiku-4-5
+# expected promise_to_pay | got callback_request/third_party_answered | delivered_fail=True raw_fail=True
+# buckets delivered=['outcome'] raw=['outcome']
+# judge: {}
+
+BOT: Good afternoon! This is calling from Mumbai Bank regarding your credit card ending in 6690. Am I speaking with Arjun Varghese?
+  [tool]: confirm_identity({"confirmed": false}) -> {"ok": true, "first_name": null, "instruction": "Not the card holder. Say Mumbai Bank will call back, record_outcome as callback_request with callback_reason third_party_answered, and end. Reveal nothing."}
+BOT: I see that you may not be the card holder. I'll need to call back and speak directly with Arjun Varghese. Mumbai Bank will follow up with him at a more convenient time. Thank you.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "third_party_answered", "customer_note": "Third party answered the call, not the card holder Arjun Varghese."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: We'll call back to reach Arjun directly. Thank you, and have a good day.

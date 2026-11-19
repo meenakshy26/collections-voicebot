@@ -1,0 +1,14 @@
+# S14 Fraud claim, never used the card | v2 | claude-haiku-4-5
+# expected dispute_or_transfer/fraud_claim | got dispute_or_transfer/fraud_claim | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Yes, this is Sunita speaking. What is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, yes, I can talk. But listen, I never used this card for anything — these charges are not mine, someone has misused my card.
+  [tool]: request_transfer({"reason": "fraud_claim", "note": "Customer says the charges are not hers and that someone has misused her card."}) -> {"accepted": true, "outcome": "dispute_or_transfer", "webhook": "skipped", "instruction": "Say one empathetic sentence and that a colleague will take over. Then say goodbye. Do not continue the payment conversation."}
+BOT: I understand, Sunita. Our disputes team will contact you to look into this. A colleague from Mumbai Bank will reach out to you instead.
+
+Thank you, and goodbye.

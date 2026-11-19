@@ -1,0 +1,21 @@
+# S01 Happy path promise to pay | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Yes, hello, this is Rahul speaking. What is this regarding?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+CUSTOMER: Yes, yes, I can talk. Actually, I forgot about this — how much is due?
+BOT: I need to verify you first. A four digit code has been sent to your registered mobile. Can you read it out to me?
+CUSTOMER: Okay, the code is 4821.
+  [tool]: verify_otp({"otp": "4821"}) -> {"verified": true, "attempts_left": 1, "instruction": "Verified. You may now call get_account_summary."}
+BOT: Thank you. Let me pull up your account details.
+  [tool]: get_account_summary({}) -> {"customer_name": "Rahul Mehta", "outstanding_inr": 48200, "minimum_due_inr": 12500, "due_date": "2026-11-06", "days_past_due": 12, "late_fee_inr": 750, "late_fee_rule": "\u20b9750 applies only if outstanding balance is over \u20b910,000", "interest_rate_monthly_pct": 3.5}
+BOT: Your minimum payment due was twelve thousand five hundred rupees, and it was due on November sixth. A late fee of seven hundred and fifty rupees has also been applied. Can you pay this by a specific date?
+CUSTOMER: Haan, haan, I can pay. My salary comes on the 20th, so I will pay the full amount on the 21st through UPI. Is that okay?
+BOT: Perfect. So you'll pay the full amount of twelve thousand five hundred rupees on the 21st of November through UPI. Is that correct?
+CUSTOMER: Yes, that's correct. I will pay on the 21st by UPI.
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-21", "ptp_amount_inr": 12500, "customer_note": "Customer confirmed payment of twelve thousand five hundred rupees on 21 November through UPI after salary receipt."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Great, you've promised to pay twelve thousand five hundred rupees on the 21st of November by UPI. Thank you, and have a good day.

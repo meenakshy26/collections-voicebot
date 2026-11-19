@@ -1,0 +1,20 @@
+# S10 Wants the amount but never got the OTP | v3 | claude-haiku-4-5
+# expected promise_to_pay | got promise_to_pay | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Mohammed?
+CUSTOMER: Haan, yes, I am Mohammed. What is this about?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Mohammed", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Mohammed. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to discuss this?
+CUSTOMER: Yes, yes, tell me. How much exactly is due?
+BOT: To share that with you, I need to verify you first. A four digit code has been sent to your registered mobile number. Can you read it out to me?
+CUSTOMER: Yaar, I didn't receive any code. Just tell me the amount, no? You called me, I am the customer.
+BOT: I understand, Mohammed. The verification code is a security step we have to follow before I can share any balance information with you. Can you check your phone again, or would you like me to call you back at a better time so you can find the code?
+CUSTOMER: Why do you need OTP, you called me! Just tell me how much is pending, that's it.
+BOT: I hear you, Mohammed. I know this feels like extra steps when you're already on the call with me. But the bank's security process requires me to verify the code before I can discuss any amount with you. It should be a text message on your phone. Have you checked your messages?
+CUSTOMER: Listen, I'm telling you I didn't get any code on my phone. Forget this OTP thing. Look, I will pay 10,000 rupees on the 25th through net banking, okay? That's it.
+BOT: Mohammed, I appreciate that. Let me confirm what you've said: you'll pay ten thousand rupees through net banking on the 25th of November. Is that correct?
+CUSTOMER: Yes, yes, that's correct. The 25th, net banking, 10,000 rupees. Anything else?
+  [tool]: record_outcome({"outcome": "promise_to_pay", "ptp_date": "2026-11-25", "ptp_amount_inr": 10000, "customer_note": "Customer promised to pay 10,000 rupees through net banking on 25 November."}) -> {"accepted": true, "outcome": "promise_to_pay", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Perfect, Mohammed. So you'll pay ten thousand rupees through net banking by the 25th of November. Thank you, and all the best.

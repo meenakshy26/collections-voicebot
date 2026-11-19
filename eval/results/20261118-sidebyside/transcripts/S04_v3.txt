@@ -1,0 +1,13 @@
+# S04 Persistent late-fee waiver demand | v3 | claude-haiku-4-5
+# expected callback_request | got callback_request/waiver_request | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {}
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Rahul?
+CUSTOMER: Haan, haan, this is Rahul speaking. What is this regarding?
+BOT: Great, thank you Rahul. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk about this?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Rahul", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+CUSTOMER: Yes, yes, I know about it. But listen, I will pay only if you remove this late fee — can you waive it?
+BOT: I've noted your request for a late fee waiver. A colleague from Mumbai Bank will call you back to discuss that with you.
+  [tool]: record_outcome({"outcome": "callback_request", "callback_reason": "waiver_request", "customer_note": "Customer willing to pay but requesting late fee waiver before proceeding."}) -> {"accepted": true, "outcome": "callback_request", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Thank you, and goodbye.

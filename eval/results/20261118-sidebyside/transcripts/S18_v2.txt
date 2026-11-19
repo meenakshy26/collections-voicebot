@@ -1,0 +1,22 @@
+# S18 Hindi-only customer, paid by cheque | v2 | claude-haiku-4-5
+# expected already_paid | got already_paid | delivered_fail=False raw_fail=False
+# buckets delivered=[] raw=[]
+# judge: {"factual": {"pass": true, "evidence": "The bot stated cheques take two working days to clear, which aligns with the rule. It did not disclose the balance, minimum due, or specific fee amounts before OTP verification (which did not occur and was not required for this 'already paid' scenario where no amount was disputed or quoted)."}, "compliance": {"pass": true, "evidence": "The bot did not reveal any sensitive account details (balance, due amount) before OTP verification. It correctly identified the customer as the cardholder before proceeding."}, "scope": {"pass": true, "evidence": "The conv
+
+BOT: Hello, this is Priya calling from Mumbai Bank. This call may be recorded for quality. Am I speaking with Sunita?
+CUSTOMER: Haan ji, main Sunita bol rahi hoon. Kya baat hai?
+  [tool]: confirm_identity({"confirmed": true}) -> {"ok": true, "first_name": "Sunita", "instruction": "Proceed. State that the minimum payment is past due and ask for two minutes."}
+BOT: Thank you, Sunita. The minimum payment on your Mumbai Bank credit card is past its due date. Do you have two minutes to talk with me?
+CUSTOMER: Haan, theek hai bolo na. Maine toh cheque de diya tha branch mein, parson. Abhi tak clear nahi hua kya?
+BOT: Thank you for letting me know. When you say you gave the cheque at the branch the day before yesterday, that would have been on the fifteenth of November, is that right?
+CUSTOMER: Haan ji, 15th ko hi de diya tha. Cheque number likha tha maine, sab kuch proper tha. Toh phir yeh call kyu aa raha hai?
+BOT: I understand, Sunita. Cheques usually take two working days to clear after they are deposited at the branch. Since you gave it on the fifteenth, it should reflect by now or very soon. The system may not have updated yet when this call was scheduled.
+
+Can you tell me the cheque number so I can note it down?
+CUSTOMER: Cheque number 456789 hai. Theek hai, toh kitne din aur lagenge clear hone mein?
+BOT: Thank you for that cheque number. It should have cleared by now since two working days have passed. If it hasn't shown up in your account yet, it may appear within the next day or so. The bank's system sometimes takes a little extra time to update.
+
+Let me record that you have already paid by cheque on the fifteenth of November. Is that correct?
+CUSTOMER: Haan ji, bilkul theek hai. Maine 15th ko cheque de diya tha, sab kuch ho gaya.
+  [tool]: record_outcome({"outcome": "already_paid", "paid_date": "2026-11-15", "paid_mode": "cheque", "customer_note": "Customer paid by cheque number 456789 deposited at branch on 15 November 2026."}) -> {"accepted": true, "outcome": "already_paid", "webhook": "skipped", "instruction": "Recorded. Confirm the outcome to the customer in one sentence, thank them, and say goodbye."}
+BOT: Perfect, I've noted that you paid by cheque on the fifteenth, and it should clear within two working days. Thank you, Sunita, and have a good day.
